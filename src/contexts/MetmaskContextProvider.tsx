@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   useState,
   createContext,
@@ -7,6 +8,7 @@ import {
   SetStateAction,
 } from "react";
 import { Contract, ethers, BigNumber } from "ethers";
+
 import EacAggregatorProxyContractAbi from "../contract/abi/EACAggregatorProxyAbi.json";
 import LumanagiPredictionV1Abi from "../contract/abi/LumanagiPredictionV1Abi.json";
 
@@ -30,7 +32,8 @@ type MetamaskContextType = {
     to: string,
     data: string,
     value?: number | BigNumber,
-    from?: string
+    from?: string,
+    callback?: Function
   ) => void;
   getBalance: () => Promise<BigNumber>;
 };
@@ -187,7 +190,8 @@ const MetmaskContextProvider: React.FC<{
     to: string,
     data: string,
     value?: BigNumber | number,
-    from?: string
+    from?: string,
+    callback?: Function
   ) => {
     let signerTemp = (provider as ethers.providers.Web3Provider).getSigner();
     if (!signer) {
@@ -206,7 +210,11 @@ const MetmaskContextProvider: React.FC<{
       method: "eth_sendTransaction",
       params: [tx],
     });
-    console.log("LL: postTransaction -> txHash", txHash);
+    if (txHash) {
+      if (callback) {
+        callback(txHash);
+      }
+    }
   };
 
   useEffect(() => {

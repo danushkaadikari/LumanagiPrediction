@@ -1,25 +1,32 @@
-import React, { useEffect } from "react";
-import Card from "../components/Card";
-import { MetmaskContext } from "../contexts/MetmaskContextProvider";
-import Button from "../UI/Button";
-import { useContext, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useContext, useState, useRef } from "react";
 import { BigNumber, Contract } from "ethers";
+import { MetmaskContext } from "../contexts/MetmaskContextProvider";
 import Timer from "../components/Timer";
+import Button from "../UI/Button";
+import {
+  LUMANAGI_PREDICTION_V1_ADDRESS,
+  PREVIOUS_ROUNDS,
+  NEXT_ROUNDS,
+} from "../constants/contract";
+import { convertEpochToDate, getSecondsDiffrence } from "../utils/index";
+
 import {
   postBetBearAbi,
   postBetBullAbi,
-} from "../contract/functions/lumangiPredicationV1";
-import { LUMANAGI_PREDICTION_V1_ADDRESS } from "../constants/contract";
-import {
+  getUserRounds,
+  postClaimAbi,
   getEpochDetails,
   getCurrentEpoch,
 } from "../contract/functions/lumangiPredicationV1";
-import { convertEpochToDate, getSecondsDiffrence } from "../utils/index";
-import { getLatestAnswer } from "../contract/functions/eacAggregatorProxy";
 import {
-  getUserRounds,
-  postClaimAbi,
-} from "../contract/functions/lumangiPredicationV1";
+  getLatestAnswer,
+  getDescription,
+} from "../contract/functions/eacAggregatorProxy";
+import Prev from "../components/card/Prev";
+import Live from "../components/card/Live";
+import Next from "../components/card/Next";
+import AnimatedNumber from "../common/AnimatedNumber";
 
 const Tabs = () => {
   return (
@@ -46,60 +53,63 @@ const Dashboard: React.FC<{}> = () => {
     account,
   } = useContext(MetmaskContext);
   const [userRounds, setUserRounds] = useState<any>({});
-  const [rounds, setRounds] = useState<any[]>([
-    {
-      live: true,
-      active: false,
-    },
-    {
-      live: true,
-      active: false,
-    },
-    {
-      live: true,
-      active: true,
-    },
-    {
-      live: false,
-      active: true,
-    },
-    {
-      live: false,
-      active: false,
-    },
-  ]);
+  const [rounds, setRounds] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [loadingCurrentCard, setLoadingCurrentCard] = useState<boolean>(false);
-
+  const [calculating, setCalculating] = useState<boolean>(true);
   const [currentEpoch, setCurrentEpoch] = useState<number>(-1);
   const [disableUpDown, setDisableUpDown] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<null | number>(null);
   const [minutes, setMinutes] = useState<null | number>(null);
-  const [latestAnswer, setLatestAnswer] = useState<null | number>(null);
+  const [descrition, setDescription] = useState<string>("null");
   const [oldest, setOldest] = useState<any>(null);
 
+  const [latestAnswer, setLatestAnswer] = useState<null | number>(null);
+  const [prevAnswer, setPrevAnswer] = useState<number>(0);
+
+  const cardsContainer = useRef<HTMLDivElement>(null);
+
   const setDisplayData = async (selectedEpoch: number) => {
-    const allData = await getRoundsData([
-      selectedEpoch - 4,
-      selectedEpoch - 3,
-      selectedEpoch - 2,
-      selectedEpoch - 1,
-      selectedEpoch,
-      selectedEpoch + 1,
-    ]);
+    const epochIds = [];
+    const tempRounds = [];
+    for (let index = PREVIOUS_ROUNDS + 1; index > 0; index--) {
+      epochIds.push(selectedEpoch - index);
+      tempRounds.push({
+        live: true,
+        active: false,
+        epoch: selectedEpoch - index,
+      });
+    }
+    epochIds.push(selectedEpoch);
+    tempRounds.push({
+      live: true,
+      active: true,
+      epoch: selectedEpoch,
+    });
+    for (let index = 1; index <= NEXT_ROUNDS; index++) {
+      epochIds.push(selectedEpoch + index);
+      tempRounds.push({
+        live: false,
+        active: index > 1 ? false : true,
+        epoch: selectedEpoch + index,
+      });
+    }
+    setRounds(tempRounds);
+    const allData = await getRoundsData(tempRounds);
 
     setCurrentEpoch(selectedEpoch);
-    const endEpochDataTimpStamp = allData[4].lockTimestamp;
-
+    const lockEpochDataTimpStamp = allData[PREVIOUS_ROUNDS + 1].lockTimestamp;
     const secondsData = getSecondsDiffrence(
       new Date(),
-      convertEpochToDate(endEpochDataTimpStamp)
+      convertEpochToDate(lockEpochDataTimpStamp)
     );
+    if (secondsData > 0) {
+      setSeconds(secondsData % 60);
+      setMinutes(secondsData < 60 ? 0 : Math.floor(secondsData / 60));
+      setCalculating(false);
+    }
 
-    setSeconds(secondsData % 60);
-    setMinutes(secondsData < 60 ? 0 : Math.floor(secondsData / 60));
     setOldest(allData[0]);
-    setRounds([allData[1], allData[2], allData[3], allData[4], allData[5]]);
+    setRounds(allData.filter((data, index) => index !== 0));
   };
   /**
    * Handles callback for start round event
@@ -122,13 +132,7 @@ const Dashboard: React.FC<{}> = () => {
     epoch: BigNumber,
     roundId: BigNumber,
     price: BigNumber
-  ) => {
-    console.log("LL: lockRoundCallback Start");
-    console.log("LL: lockRoundCallback -> Number(epoch)", Number(epoch));
-    console.log("LL: lockRoundCallback -> Number(roundId)", Number(roundId));
-    console.log("LL: lockRoundCallback -> Number(price)", Number(price));
-    console.log("LL: lockRoundCallback End");
-  };
+  ) => {};
 
   /**
    * Handles callback for end round event
@@ -138,54 +142,89 @@ const Dashboard: React.FC<{}> = () => {
 
   /**
    * Handles click of enter up button
+   * @param amount: amount to be sent as bet
    */
 
   const betBearHandler = async (amount: Number) => {
-    console.log("LL: betBearHandler -> amount", Number(amount));
     if (lumanagiPredictionV1Contract) {
       const abi = await postBetBearAbi(
         lumanagiPredictionV1Contract,
         currentEpoch
       );
-      // const betAmount = await getMinBetAmount(lumanagiPredictionV1Contract);
+
       postTransaction(
         LUMANAGI_PREDICTION_V1_ADDRESS,
         abi,
-        BigNumber.from(amount)
+        BigNumber.from(amount),
+        undefined,
+        () => {
+          setDisableUpDown(true);
+          setUserRounds({
+            ...userRounds,
+            [Number(currentEpoch)]: {
+              claimable: false,
+              claimed: false,
+            },
+          });
+        }
       );
     }
   };
 
   /**
    * Handles click of enter down button
+   * @param amount: amount to be sent as bet
    */
 
   const betBullHandler = async (amount: Number) => {
-    console.log("LL: betBullHandler -> amount", amount);
     if (lumanagiPredictionV1Contract) {
       const abi = await postBetBullAbi(
         lumanagiPredictionV1Contract,
         currentEpoch
       );
-      // const betAmount = await getMinBetAmount(lumanagiPredictionV1Contract);
 
       postTransaction(
         LUMANAGI_PREDICTION_V1_ADDRESS,
         abi,
-        BigNumber.from(amount)
+        BigNumber.from(amount),
+        undefined,
+        () => {
+          setDisableUpDown(true);
+          setUserRounds({
+            ...userRounds,
+            [Number(currentEpoch)]: {
+              claimable: false,
+              claimed: false,
+            },
+          });
+        }
       );
     }
   };
 
   /**
-   * Handles click of enter up button
+   * Handles claiming of the round
+   * @param epoch round number to be claimed
    */
 
   const postClaim = async (epoch: BigNumber) => {
     if (lumanagiPredictionV1Contract) {
       const abi = await postClaimAbi(lumanagiPredictionV1Contract, [epoch]);
-      // const betAmount = await getMinBetAmount(lumanagiPredictionV1Contract);
-      postTransaction(LUMANAGI_PREDICTION_V1_ADDRESS, abi);
+      postTransaction(
+        LUMANAGI_PREDICTION_V1_ADDRESS,
+        abi,
+        undefined,
+        undefined,
+        () => {
+          setUserRounds({
+            ...userRounds,
+            [Number(epoch)]: {
+              claimable: true,
+              claimed: true,
+            },
+          });
+        }
+      );
     }
   };
 
@@ -197,17 +236,14 @@ const Dashboard: React.FC<{}> = () => {
 
   const getRoundsData = (epochArray: any[]) =>
     Promise.all(
-      epochArray.map(async (epoch: any, index: number) => {
+      epochArray.map(async (epochInfo: any, index: number) => {
         const epochDetails = await getEpochDetails(
           lumanagiPredictionV1Contract as Contract,
-          BigNumber.from(epoch)
+          BigNumber.from(epochInfo.epoch)
         );
-        const epochTemp =
-          epochDetails && epochDetails.epoch > 0 ? epochDetails.epoch : epoch;
         return {
-          ...(index > 0 ? rounds[index - 1] : {}),
           ...epochDetails,
-          epoch: epochTemp,
+          ...epochInfo,
         };
       })
     );
@@ -221,6 +257,7 @@ const Dashboard: React.FC<{}> = () => {
       const latestAnswerTemp = await getLatestAnswer(
         eacAggregatorProxyContract
       );
+      setPrevAnswer(latestAnswer ? latestAnswer : 0);
       setLatestAnswer(latestAnswerTemp);
     }
   };
@@ -245,10 +282,15 @@ const Dashboard: React.FC<{}> = () => {
             lumanagiPredictionV1Contract,
             account
           );
+          console.log("LL: endRoundCallback -> userRounds", userRounds);
           setUserRounds(userRounds);
         }
 
         setLoading(false);
+        if (cardsContainer.current) {
+          cardsContainer.current.scrollLeft =
+            cardsContainer.current.offsetWidth - 750;
+        }
       })();
     }
   }, [lumanagiPredictionV1Contract]);
@@ -260,46 +302,104 @@ const Dashboard: React.FC<{}> = () => {
     setInterval(async () => {
       getLatestPrice();
     }, 10000);
-
-    getLatestPrice();
+    if (eacAggregatorProxyContract) {
+      (async () => {
+        await getLatestPrice();
+        setDescription(await getDescription(eacAggregatorProxyContract));
+      })();
+    }
   }, [eacAggregatorProxyContract]);
+
+  useEffect(() => {}, []);
 
   return (
     <div className="w-full">
       <Tabs />
-
-      <Timer
-        seconds={seconds}
-        minutes={minutes}
-        setSeconds={setSeconds}
-        setMinutes={setMinutes}
-        setDisableUpDown={setDisableUpDown}
-      />
+      <div className="flex items-center justify-center mx-20">
+        <div className="justify-center w-48 p-2 text-center text-white bg-[#259da822] rounded">
+          {loading ? (
+            "Loading..."
+          ) : (
+            <div className="flex items-center justify-center">
+              <div className="mr-1">
+                {descrition.replaceAll(" ", "").replace("/", "")}
+              </div>
+              <div className="text-xs">
+                <AnimatedNumber
+                  n={latestAnswer ? latestAnswer : 0}
+                  from={prevAnswer}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+        <Timer
+          seconds={seconds}
+          minutes={minutes}
+          setSeconds={setSeconds}
+          setMinutes={setMinutes}
+          setDisableUpDown={setDisableUpDown}
+          setCalculating={setCalculating}
+        />
+      </div>
       <div
         className="grid grid-flow-col auto-cols-[100%] grid-rows-none gap-10 mt-10 overflow-x-scroll w-100 card-data sm:auto-cols-[35%] md:auto-cols-[20%] lg:auto-cols-[20%] xl:auto-cols-[20%] 2xl:auto-cols-[20%]"
         style={{
           overflowX: "scroll",
           height: "450px",
           overflowY: "visible",
+          scrollBehavior: "smooth",
         }}
+        ref={cardsContainer}
       >
-        {rounds.map((data, index) => (
-          <Card
-            {...data}
-            key={index}
-            loading={loading}
-            currentEpoch={currentEpoch}
-            postTransaction={postTransaction}
-            betBearHandler={betBearHandler}
-            betBullHandler={betBullHandler}
-            minutes={minutes}
-            disableUpDown={disableUpDown}
-            latestAnswer={latestAnswer}
-            prev={index === 0 ? oldest : rounds[index - 1]}
-            userRounds={userRounds}
-            postClaim={postClaim}
-          />
-        ))}
+        {rounds.map((data, index) => {
+          if (data.epoch < currentEpoch) {
+            return (
+              <React.Fragment key={index}>
+                <Prev
+                  active={data.epoch === currentEpoch - 1}
+                  minutes={minutes as number}
+                  seconds={seconds as number}
+                  epoch={data.epoch}
+                  latestAnswer={latestAnswer as number}
+                  closePrice={data.closePrice}
+                  prevClosePrice={
+                    index > 0 ? rounds[index - 1].closePrice : oldest.closePrice
+                  }
+                  totalAmount={data.totalAmount}
+                  loading={loading}
+                  bearAmount={data.bearAmount}
+                  bullAmount={data.bullAmount}
+                  postClaim={postClaim}
+                  userRounds={userRounds}
+                  lockPrice={data.lockPrice}
+                  rewardAmount={data.rewardAmount}
+                  calculating={calculating}
+                  prevAnswer={prevAnswer}
+                />
+              </React.Fragment>
+            );
+          } else if (data.epoch === currentEpoch) {
+            return (
+              <React.Fragment key={index}>
+                <Live
+                  epoch={data.epoch}
+                  loading={loading}
+                  betBearHandler={betBearHandler}
+                  betBullHandler={betBullHandler}
+                  disableUpDown={disableUpDown}
+                  userRounds={userRounds}
+                />
+              </React.Fragment>
+            );
+          } else {
+            return (
+              <React.Fragment key={index}>
+                <Next epoch={data.epoch} loading={loading} />
+              </React.Fragment>
+            );
+          }
+        })}
       </div>
     </div>
   );

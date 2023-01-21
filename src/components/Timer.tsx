@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useCallback, useMemo } from "react";
 
 interface TimerType {
@@ -6,6 +7,7 @@ interface TimerType {
   setSeconds: any;
   setMinutes: any;
   setDisableUpDown: any;
+  setCalculating: any;
 }
 
 const Timer = ({
@@ -14,11 +16,8 @@ const Timer = ({
   setSeconds = () => {},
   setMinutes = () => {},
   setDisableUpDown,
+  setCalculating,
 }: TimerType) => {
-  // const tabsItems = useMemo(() => {
-  //   return ["LMNG/USDT", "BNB/USDT", "SOL/BNB"];
-  // }, []);
-
   const setTimer = useCallback(() => {
     if (typeof minutes === "number" && typeof seconds === "number") {
       const _seconds = seconds === 0 ? 59 : seconds - 1;
@@ -37,12 +36,13 @@ const Timer = ({
       if (minutes >= 0) {
         timeoutObject = setTimeout(() => setTimer(), 1000);
       }
-      if (seconds === 10 && minutes <= 0) {
+      if (seconds === 5 && minutes <= 0) {
         setDisableUpDown(true);
       }
       if (seconds === 0 && minutes === 0) {
         setSeconds(null);
         setMinutes(null);
+        setCalculating(true);
       }
     }
 
@@ -62,18 +62,9 @@ const Timer = ({
   }, [seconds, minutes]);
 
   return (
-    <div className="flex items-center">
-      {/* <div className="flex justify-end w-1/2 space-x-2">
-        {tabsItems.map((item, index) => (
-          <React.Fragment key={`tab-item-${index}`}>
-            <Button color="default" label={item} customStyle="!text-white" />
-          </React.Fragment>
-        ))}
-      </div> */}
-      <div className="flex justify-end w-screen mr-20">
-        <div className="bg-[#259da814] border-slate-600 border-solid border-[1px] rounded-xl text-white flex py-4 px-8 justify-center items-center">
-          <p className="text-2xl font-semibold">{displayTimer}</p>
-        </div>
+    <div className="flex justify-end w-screen">
+      <div className="bg-[#259da814] border-slate-600 border-solid border-[1px] rounded-xl text-white flex py-4 px-8 justify-center items-center">
+        <p className="text-2xl font-semibold">{displayTimer}</p>
       </div>
     </div>
   );

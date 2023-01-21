@@ -51,3 +51,13 @@ export const getLatestAnswer = async (contract: Contract) => {
     throw error;
   }
 };
+
+export const getDescription = async (contract: Contract) => {
+  try {
+    const description = await contract.description();
+    return description;
+  } catch (error) {
+    console.log("LL: getDescription -> error", error);
+    throw error;
+  }
+};
