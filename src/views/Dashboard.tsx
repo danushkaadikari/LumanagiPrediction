@@ -343,7 +343,7 @@ const Dashboard: React.FC<{}> = () => {
         />
       </div>
       <div
-        className="grid grid-flow-col auto-cols-[100%] grid-rows-none gap-10 mt-10 overflow-x-scroll w-100 card-data sm:auto-cols-[35%] md:auto-cols-[20%] lg:auto-cols-[20%] xl:auto-cols-[20%] 2xl:auto-cols-[20%]"
+        className="grid grid-flow-col auto-cols-[100%] grid-rows-none gap-10 mt-10 !overflow-x-scroll w-100 card-data sm:auto-cols-[35%] md:auto-cols-[20%] lg:auto-cols-[20%] xl:auto-cols-[20%] 2xl:auto-cols-[20%] "
         style={{
           overflowX: "scroll",
           height: "450px",
