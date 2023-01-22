@@ -119,7 +119,8 @@ export const getEpochDetails = async (
         rewardAmount > 0 ? getMaticValue(roundData.rewardAmount) : rewardAmount,
       rewardBaseCalAmount: Number(roundData.rewardBaseCalAmount),
       startTimestamp: Number(roundData.startTimestamp),
-      totalAmount:
+      totalAmount,
+      totalAmountDisplay:
         totalAmount > 0 ? getMaticValue(roundData.totalAmount) : totalAmount,
     };
   } catch (error) {

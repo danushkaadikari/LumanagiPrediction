@@ -405,6 +405,7 @@ const Dashboard: React.FC<{}> = () => {
                       : oldest?.closePrice || 0
                   }
                   totalAmount={data.totalAmount}
+                  totalAmountDisplay={data.totalAmountDisplay}
                   loading={loading}
                   bearAmount={data.bearAmount}
                   bullAmount={data.bullAmount}

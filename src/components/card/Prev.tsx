@@ -207,6 +207,7 @@ export function Prev({
   lockPrice,
   calculating,
   prevAnswer,
+  totalAmountDisplay,
 }: {
   latestAnswer: number;
   totalAmount: number;
@@ -224,6 +225,7 @@ export function Prev({
   userRounds: any;
   calculating: boolean;
   prevAnswer: number;
+  totalAmountDisplay: number;
 }) {
   let diff = 0;
   let downPerc = 0;
@@ -264,7 +266,7 @@ export function Prev({
             latestAnswer={latestAnswer}
             prevAnswer={prevAnswer}
             calculating={calculating}
-            totalAmount={totalAmount}
+            totalAmount={totalAmountDisplay}
           />
         </div>
       </div>
