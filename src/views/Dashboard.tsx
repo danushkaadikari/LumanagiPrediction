@@ -311,25 +311,21 @@ const Dashboard: React.FC<{}> = () => {
         setDescription(await getDescription(eacAggregatorProxyContract));
       })();
     }
+    const element = document.getElementById("cards-data") as any;
+    if (element) {
+      element.addEventListener("wheel", function (e: any) {
+        e.preventDefault();
+        element.scrollLeft = element.scrollLeft + e.deltaY;
+      });
+    }
   }, [eacAggregatorProxyContract]);
 
   const scrollCards = (where: "left" | "right") => {
     if (cardsContainer.current) {
       if (where === "left") {
-        const diff = cardsContainer.current.scrollLeft - SCROLL_AMOUNT;
-        if (diff > 0) {
-          cardsContainer.current.scrollLeft = SCROLL_AMOUNT;
-        } else {
-          cardsContainer.current.scrollLeft = 0;
-        }
+        cardsContainer.current.scrollLeft -= SCROLL_AMOUNT;
       } else {
-        const diff = cardsContainer.current.offsetWidth - SCROLL_AMOUNT;
-        if (diff < 0) {
-          cardsContainer.current.scrollLeft = diff;
-        } else {
-          cardsContainer.current.scrollLeft =
-            cardsContainer.current.offsetWidth;
-        }
+        cardsContainer.current.scrollLeft += SCROLL_AMOUNT;
       }
     }
   };
@@ -381,6 +377,7 @@ const Dashboard: React.FC<{}> = () => {
       </div>
       <div
         className="grid grid-flow-col auto-cols-[100%] grid-rows-none gap-10 mt-10  w-100 card-data sm:auto-cols-[35%] md:auto-cols-[20%] lg:auto-cols-[20%] xl:auto-cols-[20%] 2xl:auto-cols-[20%] !overflow-x-auto w-screen px-8"
+        id="cards-data"
         style={{
           height: "450px",
           overflowY: "visible",
