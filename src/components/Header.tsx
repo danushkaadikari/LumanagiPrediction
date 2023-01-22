@@ -10,7 +10,6 @@ export function Header() {
     console.log("clicked on buy & sell");
   };
   const { connectHandler, account } = useContext(MetmaskContext);
-  console.log("LL: Header -> account", account);
 
   return (
     <>

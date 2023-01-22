@@ -231,7 +231,6 @@ const MetmaskContextProvider: React.FC<{
         setAccount(window.ethereum.selectedAddress);
         (async () => {
           const balace = await getBalance();
-          console.log("LL: balace", balace);
           setBalance(balace);
         })();
       }

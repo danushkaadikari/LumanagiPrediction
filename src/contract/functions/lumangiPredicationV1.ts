@@ -103,6 +103,7 @@ export const getEpochDetails = async (
   try {
     const roundData = await contract.rounds(roundId);
     const rewardAmount = Number(roundData.rewardAmount);
+    const totalAmount = Number(roundData.totalAmount);
     return {
       bearAmount: Number(roundData.bearAmount),
       bullAmount: Number(roundData.bullAmount),
@@ -118,7 +119,8 @@ export const getEpochDetails = async (
         rewardAmount > 0 ? getMaticValue(roundData.rewardAmount) : rewardAmount,
       rewardBaseCalAmount: Number(roundData.rewardBaseCalAmount),
       startTimestamp: Number(roundData.startTimestamp),
-      totalAmount: Number(roundData.totalAmount),
+      totalAmount:
+        totalAmount > 0 ? getMaticValue(roundData.totalAmount) : totalAmount,
     };
   } catch (error) {
     console.log("LL: getEpochDetails -> error", error);

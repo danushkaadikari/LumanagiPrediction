@@ -72,9 +72,9 @@ const Body = ({
   latestAnswer,
   closePrice,
   lockPrice,
-  rewardAmount,
   prevAnswer,
   calculating,
+  totalAmount,
 }: {
   epoch: number;
   userRounds: any;
@@ -88,8 +88,8 @@ const Body = ({
   latestAnswer: number;
   prevAnswer: number;
   closePrice: number;
-  rewardAmount: number;
   calculating: boolean;
+  totalAmount: number;
 }) => {
   const epochPresent = userRounds[epoch];
 
@@ -167,7 +167,7 @@ const Body = ({
                   </div>
                   <div className="flex !mt-6 justify-between font-bold text-xs">
                     <p>Prize Pool</p>
-                    <p>${rewardAmount}</p>
+                    <p>${totalAmount}</p>
                   </div>
                 </div>
               </>
@@ -205,7 +205,6 @@ export function Prev({
   postClaim,
   userRounds,
   lockPrice,
-  rewardAmount,
   calculating,
   prevAnswer,
 }: {
@@ -221,7 +220,6 @@ export function Prev({
   bearAmount: number;
   bullAmount: number;
   lockPrice: number;
-  rewardAmount: number;
   postClaim: Function;
   userRounds: any;
   calculating: boolean;
@@ -263,10 +261,10 @@ export function Prev({
             postClaim={postClaim}
             closePrice={closePrice}
             lockPrice={lockPrice}
-            rewardAmount={rewardAmount}
             latestAnswer={latestAnswer}
             prevAnswer={prevAnswer}
             calculating={calculating}
+            totalAmount={totalAmount}
           />
         </div>
       </div>

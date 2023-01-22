@@ -26,7 +26,11 @@ import {
 import Prev from "../components/card/Prev";
 import Live from "../components/card/Live";
 import Next from "../components/card/Next";
+import { ReactComponent as Back } from "../assets/images/back.svg";
+import lumangiLogoPng from "../assets/images/lumangi.png";
+
 import AnimatedNumber from "../common/AnimatedNumber";
+import { SCROLL_AMOUNT } from "../constants/common";
 
 const Tabs = () => {
   return (
@@ -106,6 +110,13 @@ const Dashboard: React.FC<{}> = () => {
       setSeconds(secondsData % 60);
       setMinutes(secondsData < 60 ? 0 : Math.floor(secondsData / 60));
       setCalculating(false);
+    }
+    if (account) {
+      const userRounds = await getUserRounds(
+        lumanagiPredictionV1Contract as Contract,
+        account
+      );
+      setUserRounds(userRounds);
     }
 
     setOldest(allData[0]);
@@ -277,14 +288,6 @@ const Dashboard: React.FC<{}> = () => {
         );
         await setDisplayData(currentEpoch);
         await getBalance();
-        if (account) {
-          const userRounds = await getUserRounds(
-            lumanagiPredictionV1Contract,
-            account
-          );
-          console.log("LL: endRoundCallback -> userRounds", userRounds);
-          setUserRounds(userRounds);
-        }
 
         setLoading(false);
         if (cardsContainer.current) {
@@ -310,17 +313,38 @@ const Dashboard: React.FC<{}> = () => {
     }
   }, [eacAggregatorProxyContract]);
 
-  useEffect(() => {}, []);
+  const scrollCards = (where: "left" | "right") => {
+    if (cardsContainer.current) {
+      if (where === "left") {
+        const diff = cardsContainer.current.scrollLeft - SCROLL_AMOUNT;
+        if (diff > 0) {
+          cardsContainer.current.scrollLeft = SCROLL_AMOUNT;
+        } else {
+          cardsContainer.current.scrollLeft = 0;
+        }
+      } else {
+        const diff = cardsContainer.current.offsetWidth - SCROLL_AMOUNT;
+        if (diff < 0) {
+          cardsContainer.current.scrollLeft = diff;
+        } else {
+          cardsContainer.current.scrollLeft =
+            cardsContainer.current.offsetWidth;
+        }
+      }
+    }
+  };
 
   return (
     <div className="w-full">
       <Tabs />
-      <div className="flex items-center justify-center mx-20">
-        <div className="justify-center w-48 p-2 text-center text-white bg-[#259da822] rounded">
+      <div className="flex items-center mx-20">
+        <div className="justify-center w-1/5 text-center ">
           {loading ? (
-            "Loading..."
+            <div className="flex items-center justify-center w-48 text-white bg-[#259da822] rounded p-2 ">
+              Loading...
+            </div>
           ) : (
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center w-48 text-white bg-[#259da822] rounded p-2 ">
               <div className="mr-1">
                 {descrition.replaceAll(" ", "").replace("/", "")}
               </div>
@@ -333,19 +357,31 @@ const Dashboard: React.FC<{}> = () => {
             </div>
           )}
         </div>
-        <Timer
-          seconds={seconds}
-          minutes={minutes}
-          setSeconds={setSeconds}
-          setMinutes={setMinutes}
-          setDisableUpDown={setDisableUpDown}
-          setCalculating={setCalculating}
-        />
+        <div className="flex items-center justify-center w-3/5 poi">
+          <Back
+            className="cursor-pointer stroke-white fill-white"
+            onClick={() => scrollCards("left")}
+          />
+          <img src={lumangiLogoPng} alt="logo" className="w-10 h-10 mx-2" />
+          <Back
+            className="rotate-180 cursor-pointer stroke-white fill-white"
+            onClick={() => scrollCards("right")}
+          />
+        </div>
+        <div className="w-1/5">
+          <Timer
+            seconds={seconds}
+            minutes={minutes}
+            setSeconds={setSeconds}
+            setMinutes={setMinutes}
+            setDisableUpDown={setDisableUpDown}
+            setCalculating={setCalculating}
+          />
+        </div>
       </div>
       <div
-        className="grid grid-flow-col auto-cols-[100%] grid-rows-none gap-10 mt-10 !overflow-x-scroll w-100 card-data sm:auto-cols-[35%] md:auto-cols-[20%] lg:auto-cols-[20%] xl:auto-cols-[20%] 2xl:auto-cols-[20%] "
+        className="grid grid-flow-col auto-cols-[100%] grid-rows-none gap-10 mt-10  w-100 card-data sm:auto-cols-[35%] md:auto-cols-[20%] lg:auto-cols-[20%] xl:auto-cols-[20%] 2xl:auto-cols-[20%] !overflow-x-auto w-screen px-8"
         style={{
-          overflowX: "scroll",
           height: "450px",
           overflowY: "visible",
           scrollBehavior: "smooth",
@@ -364,7 +400,9 @@ const Dashboard: React.FC<{}> = () => {
                   latestAnswer={latestAnswer as number}
                   closePrice={data.closePrice}
                   prevClosePrice={
-                    index > 0 ? rounds[index - 1].closePrice : oldest.closePrice
+                    index > 0
+                      ? rounds[index - 1]?.closePrice || 0
+                      : oldest?.closePrice || 0
                   }
                   totalAmount={data.totalAmount}
                   loading={loading}
@@ -373,7 +411,6 @@ const Dashboard: React.FC<{}> = () => {
                   postClaim={postClaim}
                   userRounds={userRounds}
                   lockPrice={data.lockPrice}
-                  rewardAmount={data.rewardAmount}
                   calculating={calculating}
                   prevAnswer={prevAnswer}
                 />

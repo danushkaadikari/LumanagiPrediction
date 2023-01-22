@@ -23,7 +23,5 @@ export const getValueFromPercentage = (
   amount: BigNumber,
   numberVal: number
 ) => {
-  console.log("LL: numberVal", numberVal, amount);
-
   return amount.div(100 * numberVal);
 };
