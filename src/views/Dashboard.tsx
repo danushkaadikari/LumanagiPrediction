@@ -42,12 +42,16 @@ const Tabs = () => {
           label="Crypto"
           size={"sm"}
           customStyle="!text-white ml-2"
+          disabled={true}
+          title="Coming Soon!!"
         />
         <Button
           color="default"
           label="Stock"
           size={"sm"}
           customStyle="!text-white ml-2"
+          disabled={true}
+          title="Coming Soon!!"
         />
       </div>
     </>
