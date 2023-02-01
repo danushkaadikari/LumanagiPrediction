@@ -7,7 +7,7 @@ import MetmaskContextProvider from "./contexts/MetmaskContextProvider";
 function App() {
   return (
     <MetmaskContextProvider>
-      <div className="absolute w-screen min-h-screen bg-gradient-to-b from-[#414593] to-[#00022E]">
+      <div className="absolute w-screen" id="dashboard">
         <BrowserRouter>
           <Routers />
         </BrowserRouter>

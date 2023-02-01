@@ -4,6 +4,8 @@ import { MAX_TIMER_IN_MINUTES } from "../../constants/common";
 import Button from "../../UI/Button";
 import { ReactComponent as Down } from "../../assets/images/down.svg";
 import { ReactComponent as Loader } from "../../assets/images/loader.svg";
+import { ReactComponent as Claim } from "../../assets/images/Claim.svg";
+
 import upSideSvg from "../../assets/images/UpSide.svg";
 import downSideSvg from "../../assets/images/DownSide.svg";
 import calculatingGif from "../../assets/images/calculating.gif";
@@ -35,7 +37,13 @@ const Header = ({
         className={`flex justify-between px-4 py-2
         ${active ? "" : "opacity-30"}`}
       >
-        <p className="text-2xl text-white uppercase">{label}</p>
+        <p
+          className={`text-2xl ${
+            active ? "text-[#FD073A]" : "text-white"
+          } uppercase`}
+        >
+          {label}
+        </p>
         {loading ? (
           <div className="flex items-center justify-center text-black">
             <Loader className="w-12 h-12 mr-3 -ml-1 text-white animate-spin" />
@@ -45,16 +53,16 @@ const Header = ({
         )}
       </div>
       {active ? (
-        <div className="bg-[#fd073a80] bg-opacity-50 w-full h-4">
+        <div className="bg-[#06076E] bg-opacity-50 w-full h-4">
           <div
-            className="bg-[#fd073a80] rounded-tr-3xl h-4 rounded-br-3xl transition-width transition-slowest ease duration-500"
+            className="bg-[#06076E] rounded-tr-3xl h-4 rounded-br-3xl transition-width transition-slowest ease duration-500"
             style={{ width: `${progress}%` }}
           >
             &nbsp;
           </div>
         </div>
       ) : (
-        <div className="bg-[#fd073a80] w-full h-4">&nbsp;</div>
+        <div className="bg-[#06076E] w-full h-4">&nbsp;</div>
       )}
     </>
   );
@@ -100,15 +108,16 @@ const Body = ({
           <Loader className="w-12 h-12 mr-3 -ml-1 text-white animate-spin" />
         </div>
       ) : (
-        <div className="py-8 mx-1">
+        <div className="w-full py-8 mx-1">
           <div
-            className={`flex flex-col items-center justify-center py-4 text-sm text-white bg-no-repeat ${
+            className={`flex flex-col items-center justify-center py-4 text-sm text-white bg-no-repeat w-full ${
               diff < 0 && !calculating ? "opacity-50" : ""
             }`}
             style={{
               backgroundImage: `url(${upSideSvg})`,
-              backgroundSize: "100% 150%",
+              backgroundSize: "90% 120%",
               backgroundPositionY: "-1px",
+              backgroundPositionX: "15px",
             }}
           >
             <p className="text-xs font-medium uppercase">up</p>
@@ -130,16 +139,6 @@ const Body = ({
                   >
                     Last Price
                   </p>
-                  {epochPresent &&
-                    epochPresent.claimable &&
-                    !epochPresent.claimed && (
-                      <Button
-                        label={"Claim"}
-                        customStyle={"text-xs p-0 ml-auto"}
-                        onClick={() => postClaim(epoch)}
-                        color="success"
-                      />
-                    )}
                 </div>
                 <div className={`${active ? "" : "opacity-30"}`}>
                   <div className="flex items-center justify-between text-xl font-bold">
@@ -179,12 +178,20 @@ const Body = ({
             }`}
             style={{
               backgroundImage: `url(${downSideSvg})`,
-              backgroundSize: "100% 150%",
+              backgroundSize: "90% 120%",
+              backgroundPositionX: "15px",
             }}
           >
             <p className="text-xs font-medium uppercase rotate-180">down</p>
             <p className="text-xs rotate-180 opacity-70">{downPerc}x Payout</p>
           </div>
+          {epochPresent && epochPresent.claimable && !epochPresent.claimed && (
+            <Claim
+              className="absolute cursor-pointer"
+              style={{ top: "379px", left: "10px" }}
+              onClick={() => postClaim(epoch)}
+            />
+          )}
         </div>
       )}
     </>

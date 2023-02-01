@@ -34,11 +34,11 @@ export function Button({
         break;
       }
       case "success": {
-        style += "bg-[#59C497] text-white";
+        style += "bg-[#596CC3] text-white";
         break;
       }
       case "danger": {
-        style += "bg-[#C45986] text-white";
+        style += "bg-[#9A315B] text-white";
         break;
       }
       default:

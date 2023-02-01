@@ -15,9 +15,14 @@ export function Header() {
     <>
       <div className="flex items-center mx-20 mt-5 mb-10">
         <img src={MenuBar} alt="menu-bar" className="max-w-full" />
-        <img src={WhiteLogo} alt="logo" className="max-w-full ml-4 w-60" />
+        <img src={WhiteLogo} alt="logo" className="max-w-full ml-4 w-60 " />
         <div className="flex justify-end w-full space-x-4">
-          <Button onClick={handleBuySell} label="Buy & Sell" />
+          <Button
+            color="default"
+            onClick={handleBuySell}
+            label="Buy & Sell"
+            customStyle="!text-white border-white border border-opacity-50"
+          />
           <Button
             onClick={connectHandler}
             label={!!account ? account : "Connect Wallet"}

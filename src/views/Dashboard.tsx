@@ -36,7 +36,13 @@ const Tabs = () => {
   return (
     <>
       <div className="mx-20">
-        <Button color={"secondary"} label="Crypto" size={"sm"} />
+        <Button color={"secondary"} label="Forex" size={"sm"} />
+        <Button
+          color="default"
+          label="Crypto"
+          size={"sm"}
+          customStyle="!text-white ml-2"
+        />
         <Button
           color="default"
           label="Stock"
@@ -334,7 +340,7 @@ const Dashboard: React.FC<{}> = () => {
     <div className="w-full">
       <Tabs />
       <div className="flex items-center mx-20">
-        <div className="justify-center w-1/5 text-center ">
+        <div className="justify-center w-3/5 text-center ">
           {loading ? (
             <div className="flex items-center justify-center w-48 text-white bg-[#259da822] rounded p-2 ">
               Loading...
@@ -353,18 +359,8 @@ const Dashboard: React.FC<{}> = () => {
             </div>
           )}
         </div>
-        <div className="flex items-center justify-center w-3/5 poi">
-          <Back
-            className="cursor-pointer stroke-white fill-white"
-            onClick={() => scrollCards("left")}
-          />
-          <img src={lumangiLogoPng} alt="logo" className="w-10 h-10 mx-2" />
-          <Back
-            className="rotate-180 cursor-pointer stroke-white fill-white"
-            onClick={() => scrollCards("right")}
-          />
-        </div>
-        <div className="w-1/5">
+
+        <div className="w-2/5">
           <Timer
             seconds={seconds}
             minutes={minutes}
@@ -376,7 +372,7 @@ const Dashboard: React.FC<{}> = () => {
         </div>
       </div>
       <div
-        className="grid grid-flow-col auto-cols-[100%] grid-rows-none gap-10 mt-10  w-100 card-data sm:auto-cols-[35%] md:auto-cols-[20%] lg:auto-cols-[20%] xl:auto-cols-[20%] 2xl:auto-cols-[20%] !overflow-x-auto w-screen px-8"
+        className="grid grid-flow-col auto-cols-[100%] grid-rows-none gap-4 mt-10  w-100 card-data sm:auto-cols-[35%] md:auto-cols-[20%] lg:auto-cols-[20%] xl:auto-cols-[20%] 2xl:auto-cols-[20%] !overflow-x-auto w-screen px-8"
         id="cards-data"
         style={{
           height: "450px",
@@ -435,6 +431,18 @@ const Dashboard: React.FC<{}> = () => {
             );
           }
         })}
+      </div>
+      <div className="flex items-center mx-20 my-16">
+        <div className="flex justify-center w-full gap-8">
+          <Back
+            className="rotate-180 cursor-pointer stroke-white fill-white"
+            onClick={() => scrollCards("left")}
+          />
+          <Back
+            className="cursor-pointer stroke-white fill-white"
+            onClick={() => scrollCards("right")}
+          />
+        </div>
       </div>
     </div>
   );
