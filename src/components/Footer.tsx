@@ -21,26 +21,27 @@ const SocialMedia = () => {
       {
         icon: Twitter,
         type: "twitter",
+        link: "https://twitter.com/LuMaNaGi",
       },
       {
         icon: Fb,
         type: "facebook",
+        link: "https://www.facebook.com/Lumanagiswap",
       },
       {
         icon: Linkedin,
         type: "linkedin",
+        link: "https://www.linkedin.com/company/lumanagi/",
       },
       {
         icon: Insta,
         type: "instagram",
-      },
-      {
-        icon: Discord,
-        type: "discord",
+        link: "https://www.instagram.com/lumanagi.dex/",
       },
       {
         icon: Telegram,
         type: "telegram",
+        link: "https://t.me/+bMAZj4p_PVM2NGM0",
       },
     ];
   }, []);
@@ -50,11 +51,9 @@ const SocialMedia = () => {
       <div className="flex my-8 space-x-8">
         {socialMediaIcons.map((data, index) => (
           <React.Fragment key={`social-media-icon-item-${index}`}>
-            <img
-              src={data.icon}
-              alt={data.type}
-              onClick={() => handleClick(data.type)}
-            />
+            <a href={data.link}>
+              <img src={data.icon} alt={data.type} />
+            </a>
           </React.Fragment>
         ))}
       </div>
