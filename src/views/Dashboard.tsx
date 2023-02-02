@@ -27,7 +27,6 @@ import Prev from "../components/card/Prev";
 import Live from "../components/card/Live";
 import Next from "../components/card/Next";
 import { ReactComponent as Back } from "../assets/images/back.svg";
-import lumangiLogoPng from "../assets/images/lumangi.png";
 
 import AnimatedNumber from "../common/AnimatedNumber";
 import { SCROLL_AMOUNT } from "../constants/common";

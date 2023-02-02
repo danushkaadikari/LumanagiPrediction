@@ -7,15 +7,10 @@ import Twitter from "../assets/images/social-media/twitter.svg";
 import Fb from "../assets/images/social-media/fb.svg";
 import Linkedin from "../assets/images/social-media/linkedin.svg";
 import Insta from "../assets/images/social-media/instagram.svg";
-import Discord from "../assets/images/social-media/discord.svg";
 import Telegram from "../assets/images/social-media/telegram.svg";
 import Button from "../UI/Button";
 
 const SocialMedia = () => {
-  const handleClick = (type: string) => {
-    console.log("social media icon clicked: ", type);
-  };
-
   const socialMediaIcons = useMemo(() => {
     return [
       {
@@ -103,9 +98,18 @@ const Company = () => {
   );
 };
 
-const Legal = () => {
+const Papers = () => {
   const pages = useMemo(() => {
     return [
+      {
+        label: "LitePaper",
+        path: "",
+        link: "https://lumanagi.com/wp-content/uploads/2023/01/Lumanagi-Lite-Paper-v3-1.pdf",
+      },
+      {
+        label: "Pitch Deck",
+        path: "",
+      },
       {
         label: "Privacy Policy",
         path: "/privacy-policy",
@@ -128,12 +132,18 @@ const Legal = () => {
   return (
     <>
       <div className="flex flex-col space-y-2 text-xl font-medium">
-        <p className="mb-2 text-gray-600">Legal</p>
+        <p className="mb-2 text-gray-600">Papers</p>
         {pages.map((page, index) => (
           <React.Fragment key={`company-item-${index}`}>
-            <p className="text-white" onClick={() => handleRoute(page.path)}>
-              {page.label}
-            </p>
+            {page.link ? (
+              <a className="text-white" href={page.link}>
+                {page.label}
+              </a>
+            ) : (
+              <p className="text-white" onClick={() => handleRoute(page.path)}>
+                {page.label}
+              </p>
+            )}
           </React.Fragment>
         ))}
       </div>
@@ -150,8 +160,7 @@ export function Footer() {
           <SocialMedia />
         </div>
         <div className="flex space-x-20">
-          <Company />
-          <Legal />
+          <Papers />
         </div>
       </div>
       <hr className="mx-20 mt-8 mb-4 text-white"></hr>
