@@ -56,47 +56,47 @@ const SocialMedia = () => {
   );
 };
 
-const Company = () => {
-  const pages = useMemo(() => {
-    return [
-      {
-        label: "About us",
-        path: "/about-us",
-      },
-      {
-        label: "Blog",
-        path: "/blog",
-      },
-      {
-        label: "Press",
-        path: "/press",
-      },
-      {
-        label: "Careers",
-        path: "/careers",
-      },
-    ];
-  }, []);
+// const Company = () => {
+//   const pages = useMemo(() => {
+//     return [
+//       {
+//         label: "About us",
+//         path: "/about-us",
+//       },
+//       {
+//         label: "Blog",
+//         path: "/blog",
+//       },
+//       {
+//         label: "Press",
+//         path: "/press",
+//       },
+//       {
+//         label: "Careers",
+//         path: "/careers",
+//       },
+//     ];
+//   }, []);
 
-  const handleRoute = (path: string) => {
-    console.log("Routing to : ", path);
-  };
+//   const handleRoute = (path: string) => {
+//     console.log("Routing to : ", path);
+//   };
 
-  return (
-    <>
-      <div className="flex flex-col space-y-2 text-xl font-medium">
-        <p className="mb-2 text-gray-600">Company</p>
-        {pages.map((page, index) => (
-          <React.Fragment key={`company-item-${index}`}>
-            <p className="text-white" onClick={() => handleRoute(page.path)}>
-              {page.label}
-            </p>
-          </React.Fragment>
-        ))}
-      </div>
-    </>
-  );
-};
+//   return (
+//     <>
+//       <div className="flex flex-col space-y-2 text-xl font-medium">
+//         <p className="mb-2 text-gray-600">Company</p>
+//         {pages.map((page, index) => (
+//           <React.Fragment key={`company-item-${index}`}>
+//             <p className="text-white" onClick={() => handleRoute(page.path)}>
+//               {page.label}
+//             </p>
+//           </React.Fragment>
+//         ))}
+//       </div>
+//     </>
+//   );
+// };
 
 const Papers = () => {
   const pages = useMemo(() => {
