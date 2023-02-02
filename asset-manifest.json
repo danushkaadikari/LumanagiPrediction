@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/LumanagiPrediction/static/css/main.a13ca09d.css",
+    "main.js": "/LumanagiPrediction/static/js/main.14ec1f8a.js",
+    "static/js/787.23faca10.chunk.js": "/LumanagiPrediction/static/js/787.23faca10.chunk.js",
+    "static/media/lumangi-cover.png": "/LumanagiPrediction/static/media/lumangi-cover.ffbda36140256d2073a7.png",
+    "static/media/Claim.svg": "/LumanagiPrediction/static/media/Claim.429445d2df6565036086892161a16743.svg",
+    "static/media/calculating.gif": "/LumanagiPrediction/static/media/calculating.168f4181680b670a97b5.gif",
+    "static/media/Tick.gif": "/LumanagiPrediction/static/media/Tick.387bd9728193f6e41868.gif",
+    "static/media/header-logo-white.svg": "/LumanagiPrediction/static/media/header-logo-white.d4bc3109c343a8786d7f876613d9900a.svg",
+    "static/media/instagram.svg": "/LumanagiPrediction/static/media/instagram.4a8a847c95183bb6d01d7566fada96de.svg",
+    "static/media/menu-bar.svg": "/LumanagiPrediction/static/media/menu-bar.af28010308a9703cd31d9c39ddf8a32c.svg",
+    "static/media/discord.svg": "/LumanagiPrediction/static/media/discord.a197497dae6ac7ebb131c345375e478c.svg",
+    "static/media/twitter.svg": "/LumanagiPrediction/static/media/twitter.354986eeae171b497f35158134cecee9.svg",
+    "static/media/telegram.svg": "/LumanagiPrediction/static/media/telegram.72e14181a8f4dce2232e9eaa78b6fde6.svg",
+    "static/media/linkedin.svg": "/LumanagiPrediction/static/media/linkedin.c89bd064eab7e2f55ea85c9a844a9a61.svg",
+    "index.html": "/LumanagiPrediction/index.html",
+    "static/media/fb.svg": "/LumanagiPrediction/static/media/fb.865b5fdecb60f5db132d2ae0312aeb1c.svg",
+    "static/media/down.svg": "/LumanagiPrediction/static/media/down.2a420b2ed7ea678347b5cdc1a4ba259c.svg",
+    "static/media/back.svg": "/LumanagiPrediction/static/media/back.f3f8ae365c3fdb1d703cdd7890347077.svg",
+    "static/media/DownSide.svg": "/LumanagiPrediction/static/media/DownSide.46c29e6a6f64755a14f888010898a0cb.svg",
+    "static/media/UpSide.svg": "/LumanagiPrediction/static/media/UpSide.722b00377a1d12dbb25757b390a7e883.svg",
+    "static/media/loader.svg": "/LumanagiPrediction/static/media/loader.c7cbbf422e07a6f10ee048b3ddb78703.svg",
+    "main.a13ca09d.css.map": "/LumanagiPrediction/static/css/main.a13ca09d.css.map",
+    "main.14ec1f8a.js.map": "/LumanagiPrediction/static/js/main.14ec1f8a.js.map",
+    "787.23faca10.chunk.js.map": "/LumanagiPrediction/static/js/787.23faca10.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a13ca09d.css",
+    "static/js/main.14ec1f8a.js"
+  ]
+}
