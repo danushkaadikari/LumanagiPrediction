@@ -168,6 +168,7 @@ export function Footer() {
           <p className="text-sm text-white">0.002 ETH</p>
           <Button
             customStyle="rounded-xl"
+            disabled={true}
             label={
               <div className="flex items-center justify-between gap-2">
                 <div>BUY LMNG</div>
@@ -185,6 +186,7 @@ export function Footer() {
                 </svg>
               </div>
             }
+            title="Coming Soon!!"
           />
         </div>
       </div>

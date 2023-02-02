@@ -22,6 +22,8 @@ export function Header() {
             onClick={handleBuySell}
             label="Buy & Sell"
             customStyle="!text-white border-white border border-opacity-50"
+            title="Coming Soon!!"
+            disabled={true}
           />
           <Button
             onClick={connectHandler}
