@@ -164,38 +164,12 @@ export function Footer() {
         </div>
       </div>
       <hr className="mx-20 mt-8 mb-4 text-white"></hr>
-      <div className="flex justify-between mx-20 mb-10">
-        <div className="text-lg text-white">
+      <div className="flex w-full mx-20 mb-10">
+        <div className="flex justify-center w-full text-lg text-white">
           <p className="opacity-50">© Lumanagi</p>
-          <p className="mt-2">
+          <p className="ml-2">
             <span className="opacity-50">HU</span> EN
           </p>
-        </div>
-        <div className="flex items-center space-x-2 text-lg">
-          <img src={LumanagiCoin} alt="lumanagi coin" />
-          <p className="text-sm text-white">0.002 ETH</p>
-          <Button
-            customStyle="rounded-xl"
-            disabled={true}
-            label={
-              <div className="flex items-center justify-between gap-2">
-                <div>BUY LMNG</div>
-                <svg
-                  width="25"
-                  height="15"
-                  viewBox="0 0 25 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M23.9287 8.33308C24.3192 7.94256 24.3192 7.30939 23.9287 6.91887L17.5647 0.554909C17.1742 0.164384 16.541 0.164384 16.1505 0.554909C15.76 0.945433 15.76 1.5786 16.1505 1.96912L21.8073 7.62598L16.1505 13.2828C15.76 13.6734 15.76 14.3065 16.1505 14.697C16.541 15.0876 17.1742 15.0876 17.5647 14.697L23.9287 8.33308ZM0.134766 8.62598H23.2216V6.62598H0.134766V8.62598Z"
-                    fill="white"
-                  />
-                </svg>
-              </div>
-            }
-            title="Coming Soon!!"
-          />
         </div>
       </div>
     </div>
