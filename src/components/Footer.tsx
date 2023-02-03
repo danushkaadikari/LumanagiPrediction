@@ -1,14 +1,12 @@
 import React, { useMemo } from "react";
 
 import WhiteLogo from "../assets/images/header-logo-white.svg";
-import LumanagiCoin from "../assets/images/lumanagi-coin 1.png";
 
 import Twitter from "../assets/images/social-media/twitter.svg";
 import Fb from "../assets/images/social-media/fb.svg";
 import Linkedin from "../assets/images/social-media/linkedin.svg";
 import Insta from "../assets/images/social-media/instagram.svg";
 import Telegram from "../assets/images/social-media/telegram.svg";
-import Button from "../UI/Button";
 
 const SocialMedia = () => {
   const socialMediaIcons = useMemo(() => {
