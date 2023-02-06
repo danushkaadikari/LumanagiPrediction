@@ -64,7 +64,7 @@ const Timer = ({
   return (
     <div className="flex justify-end">
       <div className="bg-[#259da814] border-slate-600 border-solid border-[1px] rounded-xl text-white flex py-4 px-8 justify-center items-center">
-        <p className="text-2xl font-semibold">{displayTimer}</p>
+        <div className="text-2xl font-semibold">{displayTimer}</div>
       </div>
     </div>
   );

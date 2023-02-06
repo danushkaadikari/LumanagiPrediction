@@ -64,6 +64,7 @@ const Dashboard: React.FC<{}> = () => {
     eacAggregatorProxyContract,
     getBalance,
     account,
+    lumanagiPredictionV1ContractSocket,
   } = useContext(MetmaskContext);
   const [userRounds, setUserRounds] = useState<any>({});
   const [rounds, setRounds] = useState<any[]>([]);
@@ -136,7 +137,7 @@ const Dashboard: React.FC<{}> = () => {
    * @param epoch Epoch of newly started round
    */
 
-  const startRoundCallback = async (epoch: BigNumber) => {
+  const startRoundCallback = async (epoch: string) => {
     const newEpoch = Number(epoch);
     setDisableUpDown(false);
     setLoading(true);
@@ -286,11 +287,20 @@ const Dashboard: React.FC<{}> = () => {
    * Intial function calls for lumangi predication contracts
    */
   useEffect(() => {
-    if (lumanagiPredictionV1Contract) {
+    if (lumanagiPredictionV1ContractSocket) {
       setLoading(true);
-      lumanagiPredictionV1Contract.on("StartRound", startRoundCallback);
-      lumanagiPredictionV1Contract.on("LockRound", lockRoundCallback);
-      lumanagiPredictionV1Contract.on("EndRound", endRoundCallback);
+      lumanagiPredictionV1ContractSocket.events
+        .StartRound()
+        .on("data", function (event: any) {
+          console.log(
+            "LL: endRoundCallback -> event.returnValues.epoch",
+            event.returnValues.epoch
+          );
+
+          startRoundCallback(event.returnValues.epoch);
+        });
+      // lumanagiPredictionV1Contract.on("LockRound", lockRoundCallback);
+      // lumanagiPredictionV1Contract.on("EndRound", endRoundCallback);
       (async () => {
         const currentEpoch = await getCurrentEpoch(
           lumanagiPredictionV1Contract
@@ -305,7 +315,7 @@ const Dashboard: React.FC<{}> = () => {
         }
       })();
     }
-  }, [lumanagiPredictionV1Contract]);
+  }, [lumanagiPredictionV1ContractSocket, lumanagiPredictionV1Contract]);
 
   /**
    * Intial function calls for Eac contract

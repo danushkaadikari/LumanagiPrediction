@@ -37,19 +37,19 @@ const Header = ({
         className={`flex justify-between px-4 py-2
         ${active ? "" : "opacity-30"}`}
       >
-        <p
+        <div
           className={`text-2xl ${
             active ? "text-[#FD073A]" : "text-white"
           } uppercase`}
         >
           {label}
-        </p>
+        </div>
         {loading ? (
           <div className="flex items-center justify-center text-black">
             <Loader className="w-12 h-12 mr-3 -ml-1 text-white animate-spin" />
           </div>
         ) : (
-          <p className="text-2xl text-white font-poppins">#{epoch}</p>
+          <div className="text-2xl text-white font-poppins">#{epoch}</div>
         )}
       </div>
       {active ? (
@@ -120,8 +120,8 @@ const Body = ({
               backgroundPositionX: "15px",
             }}
           >
-            <p className="text-xs font-medium uppercase">up</p>
-            <p className="text-xs opacity-70"> {upPerc}x Payout</p>
+            <div className="text-xs font-medium uppercase">up</div>
+            <div className="text-xs opacity-70"> {upPerc}x Payout</div>
           </div>
           <div className="space-y-4 h-48 border-[#3D8DFF] border-[1px] border-solid p-2 mx-2 !mt-0 rounded-lg text-white ">
             {calculating && active ? (
@@ -132,17 +132,17 @@ const Body = ({
             ) : (
               <>
                 <div className="flex w-100">
-                  <p
+                  <div
                     className={`text-xs font-bold  ${
                       active ? "opacity-90" : "opacity-30"
                     }`}
                   >
                     Last Price
-                  </p>
+                  </div>
                 </div>
                 <div className={`${active ? "" : "opacity-30"}`}>
                   <div className="flex items-center justify-between text-xl font-bold">
-                    <p className="flex text-xl font-semibold font-poppins">
+                    <div className="flex text-xl font-semibold font-poppins">
                       $
                       {active ? (
                         <AnimatedNumber
@@ -152,21 +152,21 @@ const Body = ({
                       ) : (
                         closePrice
                       )}
-                    </p>
+                    </div>
                     <div className="bg-[#596CC4] rounded-lg px-4 py-2">
-                      <p className="flex items-center justify-between gap-1 text-xs font-bold ">
+                      <div className="flex items-center justify-between gap-1 text-xs font-bold ">
                         <Down className={`${diff < 0 ? "rotate-180" : ""}`} />$
                         {diff.toFixed(2)}
-                      </p>
+                      </div>
                     </div>
                   </div>
                   <div className="flex !mt-6 justify-between opacity-70 text-xs font-medium">
-                    <p>Locked Price</p>
-                    <p>${lockPrice}</p>
+                    <div>Locked Price</div>
+                    <div>${lockPrice}</div>
                   </div>
                   <div className="flex !mt-6 justify-between font-bold text-xs">
-                    <p>Prize Pool</p>
-                    <p>${totalAmount}</p>
+                    <div>Prize Pool</div>
+                    <div>${totalAmount}</div>
                   </div>
                 </div>
               </>
@@ -182,8 +182,10 @@ const Body = ({
               backgroundPositionX: "15px",
             }}
           >
-            <p className="text-xs font-medium uppercase rotate-180">down</p>
-            <p className="text-xs rotate-180 opacity-70">{downPerc}x Payout</p>
+            <div className="text-xs font-medium uppercase rotate-180">down</div>
+            <div className="text-xs rotate-180 opacity-70">
+              {downPerc}x Payout
+            </div>
           </div>
           {epochPresent && epochPresent.claimable && !epochPresent.claimed && (
             <Claim

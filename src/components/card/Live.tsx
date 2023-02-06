@@ -27,13 +27,13 @@ const Header = ({ loading, epoch }: LiveCardHeader) => {
   return (
     <>
       <div className="flex justify-between px-4 py-2 bg-[#06076E]  rounded-tl-3xl rounded-tr-3xl">
-        <p className="text-2xl text-white uppercase">next</p>
+        <div className="text-2xl text-white uppercase">next</div>
         {loading ? (
           <div className="flex items-center justify-center text-black">
             <Loader className="w-12 h-12 mr-3 -ml-1 text-white animate-spin" />
           </div>
         ) : (
-          <p className="text-2xl text-white font-poppins">#{epoch}</p>
+          <div className="text-2xl text-white font-poppins">#{epoch}</div>
         )}
       </div>
 
@@ -78,8 +78,8 @@ const Body = ({
               backgroundPositionY: "-1px",
             }}
           >
-            <p className="text-xs font-medium uppercase">up</p>
-            <p className="text-xs opacity-70"> {upPerc}x Payout</p>
+            <div className="text-xs font-medium uppercase">up</div>
+            <div className="text-xs opacity-70"> {upPerc}x Payout</div>
           </div>
 
           {userRound ? (
@@ -96,8 +96,8 @@ const Body = ({
               }`}
             >
               <div className="flex justify-between mb-4 text-xs font-bold">
-                <p>Prize Pool</p>
-                <p className="text-xs font-bold">${rewardAmount}</p>
+                <div>Prize Pool</div>
+                <div className="text-xs font-bold">${rewardAmount}</div>
               </div>
               <Button
                 size={"sm"}
@@ -125,8 +125,10 @@ const Body = ({
               backgroundPositionX: "15px",
             }}
           >
-            <p className="text-xs font-medium uppercase rotate-180">down</p>
-            <p className="text-xs rotate-180 opacity-70">{downPerc}x Payout</p>
+            <div className="text-xs font-medium uppercase rotate-180">down</div>
+            <div className="text-xs rotate-180 opacity-70">
+              {downPerc}x Payout
+            </div>
           </div>
         </div>
       )}
@@ -202,8 +204,13 @@ export const FlipCardBack = ({
   return (
     <div className="flip-card-back rounded-3xl bg-[#283573] border-slate-600 border-[1px] backdrop-blur-lg w-full">
       <form onSubmit={handleSubmit}>
-        <div className="flex px-4 py-2 text-xl w-100">
-          <Back onClick={flipCard} />
+        <div className="flex items-center justify-center px-3 py-2 text-xl w-100">
+          <Back
+            onClick={flipCard}
+            height="20"
+            width="30"
+            className="rotate-180"
+          />
           <div className="text-red-500">Set Position</div>
 
           {direction === "UP" ? (

@@ -13,13 +13,13 @@ const Header = ({ loading, epoch }: LiveCardHeader) => {
   return (
     <>
       <div className="flex justify-between px-4 py-2 bg-[#06076E] bg-opacity-50 rounded-tl-3xl rounded-tr-3xl opacity-50">
-        <p className="text-2xl text-white uppercase">Later</p>
+        <div className="text-2xl text-white uppercase">Later</div>
         {loading ? (
           <div className="flex items-center justify-center text-black">
             <Loader className="w-12 h-12 mr-3 -ml-1 text-white animate-spin" />
           </div>
         ) : (
-          <p className="text-2xl text-white font-poppins">#{epoch}</p>
+          <div className="text-2xl text-white font-poppins">#{epoch}</div>
         )}
       </div>
 
@@ -45,14 +45,14 @@ const Body = ({ loading }: { loading: boolean }) => {
               backgroundPositionX: "15px",
             }}
           >
-            <p className="text-xs font-medium uppercase">up</p>
-            <p className="text-xs opacity-70"> 0x Payout</p>
+            <div className="text-xs font-medium uppercase">up</div>
+            <div className="text-xs opacity-70"> 0x Payout</div>
           </div>
 
           <div className="space-y-2 h-48 border-[#3D8DFF] border-[1px] border-solid p-2 mx-2 rounded-lg text-white opacity-50">
             <div className="flex justify-between mb-4 text-xs font-bold">
-              <p>Prize Pool</p>
-              <p className="text-xs font-bold">$0.00</p>
+              <div>Prize Pool</div>
+              <div className="text-xs font-bold">$0.00</div>
             </div>
             <Button
               size={"sm"}
@@ -77,8 +77,8 @@ const Body = ({ loading }: { loading: boolean }) => {
               backgroundPositionX: "15px",
             }}
           >
-            <p className="text-xs font-medium uppercase rotate-180">down</p>
-            <p className="text-xs rotate-180 opacity-70">0x Payout</p>
+            <div className="text-xs font-medium uppercase rotate-180">down</div>
+            <div className="text-xs rotate-180 opacity-70">0x Payout</div>
           </div>
         </div>
       )}

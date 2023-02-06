@@ -83,12 +83,12 @@ const SocialMedia = () => {
 //   return (
 //     <>
 //       <div className="flex flex-col space-y-2 text-xl font-medium">
-//         <p className="mb-2 text-gray-600">Company</p>
+//         <div className="mb-2 text-gray-600">Company</div>
 //         {pages.map((page, index) => (
 //           <React.Fragment key={`company-item-${index}`}>
-//             <p className="text-white" onClick={() => handleRoute(page.path)}>
+//             <div className="text-white" onClick={() => handleRoute(page.path)}>
 //               {page.label}
-//             </p>
+//             </div>
 //           </React.Fragment>
 //         ))}
 //       </div>
@@ -130,7 +130,7 @@ const Papers = () => {
   return (
     <>
       <div className="flex flex-col space-y-2 text-xl font-medium">
-        <p className="mb-2 text-gray-600">Papers</p>
+        <div className="mb-2 text-gray-600">Papers</div>
         {pages.map((page, index) => (
           <React.Fragment key={`company-item-${index}`}>
             {page.link ? (
@@ -138,9 +138,12 @@ const Papers = () => {
                 {page.label}
               </a>
             ) : (
-              <p className="text-white" onClick={() => handleRoute(page.path)}>
+              <div
+                className="text-white"
+                onClick={() => handleRoute(page.path)}
+              >
                 {page.label}
-              </p>
+              </div>
             )}
           </React.Fragment>
         ))}
@@ -164,10 +167,10 @@ export function Footer() {
       <hr className="mx-20 mt-8 mb-4 text-white"></hr>
       <div className="flex w-full mx-20 mb-10">
         <div className="flex justify-center w-full text-lg text-white">
-          <p className="opacity-50">© Lumanagi</p>
-          <p className="ml-2">
+          <div className="opacity-50">© Lumanagi</div>
+          <div className="ml-2">
             <span className="opacity-50">HU</span> EN
-          </p>
+          </div>
         </div>
       </div>
     </div>

@@ -7,7 +7,8 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
-import { Contract, ethers, BigNumber } from "ethers";
+import Web3 from "web3";
+import { ethers, BigNumber } from "ethers";
 
 import EacAggregatorProxyContractAbi from "../contract/abi/EACAggregatorProxyAbi.json";
 import LumanagiPredictionV1Abi from "../contract/abi/LumanagiPredictionV1Abi.json";
@@ -15,6 +16,8 @@ import LumanagiPredictionV1Abi from "../contract/abi/LumanagiPredictionV1Abi.jso
 import {
   EAC_AGGREGATOR_PROXY_ADDRESS,
   LUMANAGI_PREDICTION_V1_ADDRESS,
+  SELECTED_NETWORK_LINK_HTTPS,
+  SELECTED_NETWORK_LINK_WSS,
 } from "../constants/contract";
 
 type MetamaskContextType = {
@@ -26,8 +29,8 @@ type MetamaskContextType = {
   setBalance: Dispatch<SetStateAction<BigNumber | null>>;
   connectHandler: () => void;
   provider: ethers.providers.Web3Provider | null;
-  eacAggregatorProxyContract: Contract | null;
-  lumanagiPredictionV1Contract: Contract | null;
+  eacAggregatorProxyContract: any;
+  lumanagiPredictionV1Contract: any;
   postTransaction: (
     to: string,
     data: string,
@@ -36,6 +39,7 @@ type MetamaskContextType = {
     callback?: Function
   ) => void;
   getBalance: () => Promise<BigNumber>;
+  lumanagiPredictionV1ContractSocket: any;
 };
 
 export const MetmaskContext = createContext<MetamaskContextType>({
@@ -49,6 +53,7 @@ export const MetmaskContext = createContext<MetamaskContextType>({
   provider: null,
   eacAggregatorProxyContract: null,
   lumanagiPredictionV1Contract: null,
+  lumanagiPredictionV1ContractSocket: null,
   postTransaction: () => {},
   getBalance: () => Promise.resolve(BigNumber.from(0)),
 });
@@ -61,10 +66,15 @@ const MetmaskContextProvider: React.FC<{
   const [balance, setBalance] = useState<null | BigNumber>(null);
   const [provider, setProvider] =
     useState<null | ethers.providers.Web3Provider>(null);
+
   const [eacAggregatorProxyContract, setEacAggregatorProxyContract] =
-    useState<null | Contract>(null);
+    useState<any>(null);
   const [lumanagiPredictionV1Contract, setLumanagiPredictionV1Contract] =
-    useState<null | Contract>(null);
+    useState<any>(null);
+  const [
+    lumanagiPredictionV1ContractSocket,
+    setLumanagiPredictionV1ContractSocket,
+  ] = useState<any>(null);
 
   const [signer, setSigner] = useState<any | ethers.providers.JsonRpcSigner>(
     null
@@ -112,24 +122,25 @@ const MetmaskContextProvider: React.FC<{
    * creates contract objects and assigs provider
    */
 
-  const setContracts = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    //set Web3Provider
-    setProvider(provider);
-    //Connect All your contracts here
-    const eacContract = new ethers.Contract(
-      EAC_AGGREGATOR_PROXY_ADDRESS,
-      EacAggregatorProxyContractAbi,
-      provider
-    );
-    const lumangiContract = new ethers.Contract(
-      LUMANAGI_PREDICTION_V1_ADDRESS,
-      LumanagiPredictionV1Abi,
-      provider
-    );
+  const setContracts = async (web3: any, web3Socket: any) => {
+    if (web3) {
+      const eacContract = new web3.eth.Contract(
+        EacAggregatorProxyContractAbi as any,
+        EAC_AGGREGATOR_PROXY_ADDRESS
+      );
+      const lumangiContract = new web3.eth.Contract(
+        LumanagiPredictionV1Abi as any,
+        LUMANAGI_PREDICTION_V1_ADDRESS
+      );
 
-    setEacAggregatorProxyContract(eacContract);
-    setLumanagiPredictionV1Contract(lumangiContract);
+      const socketInstance = new web3Socket.eth.Contract(
+        LumanagiPredictionV1Abi,
+        LUMANAGI_PREDICTION_V1_ADDRESS
+      );
+      setEacAggregatorProxyContract(eacContract);
+      setLumanagiPredictionV1Contract(lumangiContract);
+      setLumanagiPredictionV1ContractSocket(socketInstance);
+    }
   };
 
   /**
@@ -218,16 +229,26 @@ const MetmaskContextProvider: React.FC<{
   };
 
   useEffect(() => {
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(
+        `${SELECTED_NETWORK_LINK_HTTPS}${process.env.REACT_APP_ALCHEMY_API_KEY}`
+      )
+    );
+    const socketWeb3 = new Web3(
+      new Web3.providers.WebsocketProvider(
+        `${SELECTED_NETWORK_LINK_WSS}${process.env.REACT_APP_ALCHEMY_API_KEY}`
+      )
+    );
+    setContracts(web3, socketWeb3);
+
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", accountsChanged);
       window.ethereum.on("chainChanged", chainChanged);
       window.ethereum.on("disconnect", chainChanged);
-      setContracts();
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      //set Web3Provider
+      setProvider(provider);
       if (window.ethereum.selectedAddress) {
-        console.log(
-          "LL: window.ethereum.selectedAddress",
-          window.ethereum.selectedAddress
-        );
         setAccount(window.ethereum.selectedAddress);
         (async () => {
           const balace = await getBalance();
@@ -256,6 +277,7 @@ const MetmaskContextProvider: React.FC<{
         lumanagiPredictionV1Contract,
         postTransaction,
         getBalance,
+        lumanagiPredictionV1ContractSocket,
       }}
     >
       {children}

@@ -2,7 +2,7 @@ import { BigNumber, Contract } from "ethers";
 
 export const getLatestRound = async (contract: Contract) => {
   try {
-    const latestRound = await contract.latestRound();
+    const latestRound = await contract.methods.latestRound().call();
     return Number(latestRound);
   } catch (error) {
     console.log("LL: getLatestRound -> error", error);
@@ -12,7 +12,7 @@ export const getLatestRound = async (contract: Contract) => {
 
 export const getLatestRoundData = async (contract: Contract) => {
   try {
-    const latestRoundData = await contract.latestRoundData();
+    const latestRoundData = await contract.methods.latestRoundData().call();
     return {
       answer: Number(latestRoundData.answer),
       answeredInRound: Number(latestRoundData.answeredInRound),
@@ -28,7 +28,9 @@ export const getLatestRoundData = async (contract: Contract) => {
 
 export const getRoundData = async (contract: Contract, roundId: BigNumber) => {
   try {
-    const roundData = await contract.getRoundData(BigNumber.from(roundId));
+    const roundData = await contract.methods
+      .getRoundData(BigNumber.from(roundId))
+      .call();
     return {
       answer: Number(roundData.answer),
       answeredInRound: Number(roundData.answeredInRound),
@@ -44,7 +46,7 @@ export const getRoundData = async (contract: Contract, roundId: BigNumber) => {
 
 export const getLatestAnswer = async (contract: Contract) => {
   try {
-    const latestAnswer = await contract.latestAnswer();
+    const latestAnswer = await contract.methods.latestAnswer().call();
     return Number((Number(latestAnswer) / 100000000).toFixed(2));
   } catch (error) {
     console.log("LL: getLatestAnswer -> error", error);
@@ -54,7 +56,7 @@ export const getLatestAnswer = async (contract: Contract) => {
 
 export const getDescription = async (contract: Contract) => {
   try {
-    const description = await contract.description();
+    const description = await contract.methods.description().call();
     return description;
   } catch (error) {
     console.log("LL: getDescription -> error", error);
