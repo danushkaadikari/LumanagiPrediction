@@ -83,7 +83,7 @@ export const getUserRounds = async (
         const claimable = await getClaimable(contract, Number(epoch), user);
         const { amount, claimed, position } = allRounds[1][index];
         newPrev[Number(epoch)] = {
-          amount: Number(amount),
+          amount: getMaticValue(amount),
           claimed,
           position,
           claimable,

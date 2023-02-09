@@ -9,7 +9,11 @@ import {
   PREVIOUS_ROUNDS,
   NEXT_ROUNDS,
 } from "../constants/contract";
-import { convertEpochToDate, getSecondsDiffrence } from "../utils/index";
+import {
+  convertEpochToDate,
+  getSecondsDiffrence,
+  getMaticValue,
+} from "../utils/index";
 
 import {
   postBetBearAbi,
@@ -185,6 +189,7 @@ const Dashboard: React.FC<{}> = () => {
             [Number(currentEpoch)]: {
               claimable: false,
               claimed: false,
+              amount: -getMaticValue(BigNumber.from(amount)),
             },
           });
         }
@@ -216,6 +221,7 @@ const Dashboard: React.FC<{}> = () => {
             [Number(currentEpoch)]: {
               claimable: false,
               claimed: false,
+              amount: getMaticValue(BigNumber.from(amount)),
             },
           });
         }

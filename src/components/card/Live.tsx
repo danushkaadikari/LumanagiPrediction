@@ -61,6 +61,8 @@ const Body = ({
   disableUpDown: boolean;
   userRound: any;
 }) => {
+  console.log("LL: userRound", userRound);
+
   return (
     <>
       {loading ? (
@@ -86,7 +88,17 @@ const Body = ({
             <div className="space-y-2 h-48 border-[#3D8DFF] border-[1px] border-solid p-2 mx-2 rounded-lg text-white ">
               <div className="flex flex-col items-center justify-center h-full text-sm">
                 <img src={Tick} alt="tick" className="h-40 opacity-70" />
-                <div>You Have Already Entered</div>
+                <div className="flex items-center justify-center gap-1">
+                  You Have Entered
+                  <div className="bg-[#596CC4] rounded-lg px-2 py-1">
+                    <div className="flex items-center justify-between gap-1 text-xs font-bold ">
+                      <Down
+                        className={userRound.amount < 0 ? "rotate-180" : ""}
+                      />
+                      MATIC {userRound.amount}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           ) : (
