@@ -15,7 +15,9 @@ export function Header() {
     <>
       <div className="flex items-center mx-20 mt-5 mb-10">
         <img src={MenuBar} alt="menu-bar" className="max-w-full" />
-        <img src={WhiteLogo} alt="logo" className="max-w-full ml-4 w-60 " />
+        <a className="w-full h-full" href="https://lumanagi.com">
+          <img src={WhiteLogo} alt="logo" className="max-w-full ml-4 w-60 " />
+        </a>
         <div className="flex justify-end w-full space-x-4">
           <Button
             color="default"

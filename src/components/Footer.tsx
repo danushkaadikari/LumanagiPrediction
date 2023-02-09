@@ -157,7 +157,9 @@ export function Footer() {
     <div className="relative bottom-0 w-full">
       <div className="flex justify-between mx-20 mt-40">
         <div className="flex flex-col justify-center">
-          <img src={WhiteLogo} alt="logo" className="max-w-full w-72" />
+          <a className="w-full h-full" href="https://lumanagi.com">
+            <img src={WhiteLogo} alt="logo" className="max-w-full w-72" />
+          </a>
           <SocialMedia />
         </div>
         <div className="flex space-x-20">
@@ -167,7 +169,9 @@ export function Footer() {
       <hr className="mx-20 mt-8 mb-4 text-white"></hr>
       <div className="flex w-full mx-20 mb-10">
         <div className="flex justify-center w-full text-lg text-white">
-          <div className="opacity-50">© Lumanagi</div>
+          <a className="opacity-50" href="https://lumanagi.com">
+            © Lumanagi
+          </a>
           <div className="ml-2">
             <span className="opacity-50">HU</span> EN
           </div>
