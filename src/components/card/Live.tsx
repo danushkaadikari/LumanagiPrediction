@@ -97,7 +97,7 @@ const Body = ({
             >
               <div className="flex justify-between mb-4 text-xs font-bold">
                 <div>Prize Pool</div>
-                <div className="text-xs font-bold">${rewardAmount}</div>
+                <div className="text-xs font-bold">MATIC {rewardAmount}</div>
               </div>
               <Button
                 size={"sm"}

@@ -292,11 +292,6 @@ const Dashboard: React.FC<{}> = () => {
       lumanagiPredictionV1ContractSocket.events
         .StartRound()
         .on("data", function (event: any) {
-          console.log(
-            "LL: endRoundCallback -> event.returnValues.epoch",
-            event.returnValues.epoch
-          );
-
           startRoundCallback(event.returnValues.epoch);
         });
       // lumanagiPredictionV1Contract.on("LockRound", lockRoundCallback);
