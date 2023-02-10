@@ -95,7 +95,7 @@ const Body = ({
                       <Down
                         className={userRound.amount < 0 ? "rotate-180" : ""}
                       />
-                      MATIC {userRound.amount}
+                      MATIC {userRound.amount.toFixed(6)}
                     </div>
                   </div>
                 </div>
