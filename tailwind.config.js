@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         poppins: ["Poppins"],
       },
+      fontSize: {
+        xxs: "0.70rem",
+      },
     },
   },
   plugins: [],

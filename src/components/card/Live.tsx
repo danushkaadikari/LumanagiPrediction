@@ -44,7 +44,7 @@ const Header = ({ loading, epoch }: LiveCardHeader) => {
 
 const Body = ({
   loading,
-  rewardAmount,
+  totalAmount,
   upPerc,
   downPerc,
   betBullHandler,
@@ -53,7 +53,7 @@ const Body = ({
   userRound,
 }: {
   loading: boolean;
-  rewardAmount: number;
+  totalAmount: number;
   upPerc: number;
   downPerc: number;
   betBullHandler: Function;
@@ -61,8 +61,6 @@ const Body = ({
   disableUpDown: boolean;
   userRound: any;
 }) => {
-  console.log("LL: userRound", userRound);
-
   return (
     <>
       {loading ? (
@@ -87,11 +85,11 @@ const Body = ({
           {userRound ? (
             <div className="space-y-2 h-48 border-[#3D8DFF] border-[1px] border-solid p-2 mx-2 rounded-lg text-white ">
               <div className="flex flex-col items-center justify-center h-full text-sm">
-                <img src={Tick} alt="tick" className="h-40 opacity-70" />
-                <div className="flex items-center justify-center gap-1 text-xs">
+                <img src={Tick} alt="tick" className="h-32 opacity-70" />
+                <div className="flex items-center justify-center gap-1 text-xxs">
                   YOU HAVE ENTERED:
                   <div className="bg-[#596CC4] rounded-lg px-2 py-1">
-                    <div className="flex items-center justify-between gap-1 text-xs font-bold ">
+                    <div className="flex items-center justify-between gap-1 font-bold text-xxs ">
                       <Down
                         className={userRound.amount < 0 ? "rotate-180" : ""}
                       />
@@ -99,15 +97,10 @@ const Body = ({
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-center gap-1 text-xs">
+                <div className="flex items-center justify-center gap-1 text-xxs">
                   PRIZE POOL TOTAL:
-                  <div className="bg-[#596CC4] rounded-lg px-2 py-1">
-                    <div className="flex items-center justify-between gap-1 text-xs font-bold ">
-                      <Down
-                        className={userRound.amount < 0 ? "rotate-180" : ""}
-                      />
-                      MATIC {Number(userRound.amount).toFixed(4)}
-                    </div>
+                  <div className="flex items-center justify-between gap-1 font-bold text-xxs ">
+                    MATIC {Number(totalAmount).toFixed(4)}
                   </div>
                 </div>
               </div>
@@ -121,7 +114,7 @@ const Body = ({
               <div className="flex justify-between mb-4 text-xs font-bold">
                 <div>Prize Pool</div>
                 <div className="text-xs font-bold">
-                  MATIC {Number(rewardAmount).toFixed(4)}
+                  MATIC {Number(totalAmount).toFixed(4)}
                 </div>
               </div>
               <Button
@@ -325,6 +318,7 @@ export function Live({
   epoch,
   disableUpDown = false,
   userRounds,
+  totalAmount,
 }: {
   betBearHandler: Function;
   betBullHandler: Function;
@@ -332,6 +326,7 @@ export function Live({
   epoch: number;
   disableUpDown: boolean;
   userRounds: any[];
+  totalAmount: number;
 }) {
   const { account } = useContext(MetmaskContext);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -373,7 +368,7 @@ export function Live({
         <div className="flip-card-front rounded-3xl bg-[#283573] border-slate-600 border-[1px] backdrop-blur-lg w-full">
           <Header loading={loading} epoch={epoch} />
           <Body
-            rewardAmount={0}
+            totalAmount={totalAmount}
             userRound={userRounds[epoch]}
             disableUpDown={disableUpDown || !!userRounds[epoch]}
             loading={loading}

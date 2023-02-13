@@ -5,7 +5,7 @@ export const getMinBetAmount = async (contract: Contract) => {
     const betAmount: BigNumber = await contract.methods.minBetAmount().call();
     return betAmount;
   } catch (error) {
-    console.log("LL: getLatestRound -> error", error);
+    console.error("LL: getLatestRound -> error", error);
     throw error;
   }
 };
@@ -14,7 +14,7 @@ export const postBetBearAbi = async (contract: Contract, epoch: number) => {
   try {
     return contract.methods.betBear(epoch).encodeABI();
   } catch (error) {
-    console.log("LL: getLatestRound -> error", error);
+    console.error("LL: getLatestRound -> error", error);
     throw error;
   }
 };
@@ -23,7 +23,7 @@ export const postBetBullAbi = async (contract: Contract, epoch: number) => {
   try {
     return contract.methods.betBull(epoch).encodeABI();
   } catch (error) {
-    console.log("LL: getLatestRoundData -> error", error);
+    console.error("LL: getLatestRoundData -> error", error);
     throw error;
   }
 };
@@ -35,7 +35,7 @@ export const getCurrentEpoch = async (contract: Contract) => {
       .call();
     return Number(latestRoundData);
   } catch (error) {
-    console.log("LL: getCurrentEpoch -> error", error);
+    console.error("LL: getCurrentEpoch -> error", error);
     throw error;
   }
 };
@@ -46,7 +46,7 @@ export const getUserRoundsLength = async (contract: Contract) => {
       .call();
     return Number(latestRoundData);
   } catch (error) {
-    console.log("LL: getCurrentEpoch -> error", error);
+    console.error("LL: getCurrentEpoch -> error", error);
     throw error;
   }
 };
@@ -62,7 +62,7 @@ export const getClaimable = async (
       .call();
     return isClaimable;
   } catch (error) {
-    console.log("LL: error", error);
+    console.error("LL: error", error);
     throw error;
   }
 };
@@ -94,7 +94,7 @@ export const getUserRounds = async (
     );
     return allRoundsData;
   } catch (error) {
-    console.log("LL: getCurrentEpoch -> error", error);
+    console.error("LL: getCurrentEpoch -> error", error);
     throw error;
   }
 };
@@ -127,7 +127,7 @@ export const getEpochDetails = async (
         totalAmount > 0 ? getMaticValue(roundData.totalAmount) : totalAmount,
     };
   } catch (error) {
-    console.log("LL: getEpochDetails -> error", error);
+    console.error("LL: getEpochDetails -> error", error);
     throw error;
   }
 };
@@ -136,7 +136,7 @@ export const postClaimAbi = async (contract: Contract, epochs: BigNumber[]) => {
   try {
     return contract.methods.claim(epochs).encodeABI();
   } catch (error) {
-    console.log("LL: getLatestRound -> error", error);
+    console.error("LL: getLatestRound -> error", error);
     throw error;
   }
 };

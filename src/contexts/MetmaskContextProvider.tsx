@@ -181,7 +181,7 @@ const MetmaskContextProvider: React.FC<{
         }
         return BigNumber.from(0);
       } catch (error) {
-        console.log("LL: getBalance -> error", error);
+        console.error("LL: getBalance -> error", error);
         throw error;
       }
     } else {

@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 
 import { MAX_TIMER_IN_MINUTES } from "../../constants/common";
-import Button from "../../UI/Button";
 import { ReactComponent as Down } from "../../assets/images/down.svg";
 import { ReactComponent as Loader } from "../../assets/images/loader.svg";
 import { ReactComponent as Claim } from "../../assets/images/Claim.svg";

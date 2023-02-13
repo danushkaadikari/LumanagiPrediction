@@ -75,6 +75,7 @@ const Dashboard: React.FC<{}> = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [calculating, setCalculating] = useState<boolean>(true);
   const [currentEpoch, setCurrentEpoch] = useState<number>(-1);
+  const [currentEpochData, setCurrentEpochData] = useState<any>(null);
   const [disableUpDown, setDisableUpDown] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<null | number>(null);
   const [minutes, setMinutes] = useState<null | number>(null);
@@ -113,7 +114,7 @@ const Dashboard: React.FC<{}> = () => {
     }
     setRounds(tempRounds);
     const allData = await getRoundsData(tempRounds);
-
+    setCurrentEpochData(allData[PREVIOUS_ROUNDS + 1]);
     setCurrentEpoch(selectedEpoch);
     const lockEpochDataTimpStamp = allData[PREVIOUS_ROUNDS + 1].lockTimestamp;
     const secondsData = getSecondsDiffrence(
@@ -148,22 +149,6 @@ const Dashboard: React.FC<{}> = () => {
     setDisplayData(newEpoch);
     setLoading(false);
   };
-
-  /**
-   * Handles callback for Lock round event
-   */
-
-  const lockRoundCallback = async (
-    epoch: BigNumber,
-    roundId: BigNumber,
-    price: BigNumber
-  ) => {};
-
-  /**
-   * Handles callback for end round event
-   */
-
-  const endRoundCallback = async () => {};
 
   /**
    * Handles click of enter up button
@@ -263,7 +248,7 @@ const Dashboard: React.FC<{}> = () => {
 
   const getRoundsData = (epochArray: any[]) =>
     Promise.all(
-      epochArray.map(async (epochInfo: any, index: number) => {
+      epochArray.map(async (epochInfo: any) => {
         const epochDetails = await getEpochDetails(
           lumanagiPredictionV1Contract as Contract,
           BigNumber.from(epochInfo.epoch)
@@ -290,6 +275,20 @@ const Dashboard: React.FC<{}> = () => {
   };
 
   /**
+   * Handles betbull and betbear
+   */
+
+  const handleBetEvent = async (epoch: BigNumber) => {
+    if (eacAggregatorProxyContract) {
+      const epochDetails = await getEpochDetails(
+        lumanagiPredictionV1Contract as Contract,
+        epoch
+      );
+      setCurrentEpochData(epochDetails);
+    }
+  };
+
+  /**
    * Intial function calls for lumangi predication contracts
    */
   useEffect(() => {
@@ -299,6 +298,17 @@ const Dashboard: React.FC<{}> = () => {
         .StartRound()
         .on("data", function (event: any) {
           startRoundCallback(event.returnValues.epoch);
+        });
+
+      lumanagiPredictionV1ContractSocket.events
+        .BetBear()
+        .on("data", function (event: any) {
+          handleBetEvent(event.returnValues.epoch);
+        });
+      lumanagiPredictionV1ContractSocket.events
+        .BetBull()
+        .on("data", function (event: any) {
+          handleBetEvent(event.returnValues.epoch);
         });
       // lumanagiPredictionV1Contract.on("LockRound", lockRoundCallback);
       // lumanagiPredictionV1Contract.on("EndRound", endRoundCallback);
@@ -434,6 +444,7 @@ const Dashboard: React.FC<{}> = () => {
                   betBullHandler={betBullHandler}
                   disableUpDown={disableUpDown}
                   userRounds={userRounds}
+                  totalAmount={currentEpochData.totalAmountDisplay}
                 />
               </React.Fragment>
             );
