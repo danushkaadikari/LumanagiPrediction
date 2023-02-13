@@ -166,7 +166,7 @@ const Body = ({
                   </div>
                   <div className="flex !mt-6 justify-between font-bold text-xs">
                     <div>Prize Pool</div>
-                    <div>MATIC {totalAmount}</div>
+                    <div>MATIC {Number(totalAmount).toFixed(4)}</div>
                   </div>
                 </div>
               </>

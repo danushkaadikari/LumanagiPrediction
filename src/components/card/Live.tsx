@@ -88,14 +88,25 @@ const Body = ({
             <div className="space-y-2 h-48 border-[#3D8DFF] border-[1px] border-solid p-2 mx-2 rounded-lg text-white ">
               <div className="flex flex-col items-center justify-center h-full text-sm">
                 <img src={Tick} alt="tick" className="h-40 opacity-70" />
-                <div className="flex items-center justify-center gap-1">
-                  You Have Entered
+                <div className="flex items-center justify-center gap-1 text-xs">
+                  YOU HAVE ENTERED:
                   <div className="bg-[#596CC4] rounded-lg px-2 py-1">
                     <div className="flex items-center justify-between gap-1 text-xs font-bold ">
                       <Down
                         className={userRound.amount < 0 ? "rotate-180" : ""}
                       />
-                      MATIC {userRound.amount.toFixed(6)}
+                      MATIC {Number(userRound.amount).toFixed(4)}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center gap-1 text-xs">
+                  PRIZE POOL TOTAL:
+                  <div className="bg-[#596CC4] rounded-lg px-2 py-1">
+                    <div className="flex items-center justify-between gap-1 text-xs font-bold ">
+                      <Down
+                        className={userRound.amount < 0 ? "rotate-180" : ""}
+                      />
+                      MATIC {Number(userRound.amount).toFixed(4)}
                     </div>
                   </div>
                 </div>
@@ -109,7 +120,9 @@ const Body = ({
             >
               <div className="flex justify-between mb-4 text-xs font-bold">
                 <div>Prize Pool</div>
-                <div className="text-xs font-bold">MATIC {rewardAmount}</div>
+                <div className="text-xs font-bold">
+                  MATIC {Number(rewardAmount).toFixed(4)}
+                </div>
               </div>
               <Button
                 size={"sm"}
