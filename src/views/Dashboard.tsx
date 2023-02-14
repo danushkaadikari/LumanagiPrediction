@@ -90,9 +90,17 @@ const Dashboard: React.FC<{}> = () => {
   const setDisplayData = async (selectedEpoch: number) => {
     const epochIds = [];
     const tempRounds = [];
+    const prevData: any = {};
+    if (rounds.length > 0) {
+      rounds.forEach((round) => {
+        prevData[round.epoch] = { ...round };
+      });
+    }
     for (let index = PREVIOUS_ROUNDS + 1; index > 0; index--) {
-      epochIds.push(selectedEpoch - index);
       tempRounds.push({
+        ...(prevData[selectedEpoch - index]
+          ? prevData[selectedEpoch - index]
+          : {}),
         live: true,
         active: false,
         epoch: selectedEpoch - index,
@@ -103,6 +111,7 @@ const Dashboard: React.FC<{}> = () => {
       live: true,
       active: true,
       epoch: selectedEpoch,
+      ...(prevData[selectedEpoch] ? prevData[selectedEpoch] : {}),
     });
     for (let index = 1; index <= NEXT_ROUNDS; index++) {
       epochIds.push(selectedEpoch + index);
@@ -121,6 +130,8 @@ const Dashboard: React.FC<{}> = () => {
       new Date(),
       convertEpochToDate(lockEpochDataTimpStamp)
     );
+    setOldest(allData[0]);
+    setRounds(allData.filter((data, index) => index !== 0));
     if (secondsData > 0) {
       setSeconds(secondsData % 60);
       setMinutes(secondsData < 60 ? 0 : Math.floor(secondsData / 60));
@@ -133,9 +144,6 @@ const Dashboard: React.FC<{}> = () => {
       );
       setUserRounds(userRounds);
     }
-
-    setOldest(allData[0]);
-    setRounds(allData.filter((data, index) => index !== 0));
   };
   /**
    * Handles callback for start round event
