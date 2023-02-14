@@ -426,8 +426,8 @@ const Dashboard: React.FC<{}> = () => {
                   closePrice={data.closePrice}
                   prevClosePrice={
                     index > 0
-                      ? rounds[index - 1]?.closePrice || 0
-                      : oldest?.closePrice || 0
+                      ? rounds[index - 1]?.closePrice || latestAnswer
+                      : oldest?.closePrice || latestAnswer
                   }
                   totalAmount={data.totalAmount}
                   totalAmountDisplay={data.totalAmountDisplay}
@@ -450,9 +450,12 @@ const Dashboard: React.FC<{}> = () => {
                   loading={loading}
                   betBearHandler={betBearHandler}
                   betBullHandler={betBullHandler}
+                  bearAmount={currentEpochData.bearAmount}
+                  bullAmount={currentEpochData.bullAmount}
                   disableUpDown={disableUpDown}
                   userRounds={userRounds}
-                  totalAmount={currentEpochData.totalAmountDisplay}
+                  totalAmount={currentEpochData.totalAmount}
+                  totalAmountDisplay={currentEpochData.totalAmountDisplay}
                 />
               </React.Fragment>
             );

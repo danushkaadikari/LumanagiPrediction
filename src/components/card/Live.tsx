@@ -319,6 +319,9 @@ export function Live({
   disableUpDown = false,
   userRounds,
   totalAmount,
+  totalAmountDisplay,
+  bullAmount,
+  bearAmount,
 }: {
   betBearHandler: Function;
   betBullHandler: Function;
@@ -327,6 +330,9 @@ export function Live({
   disableUpDown: boolean;
   userRounds: any[];
   totalAmount: number;
+  totalAmountDisplay: number;
+  bullAmount: number;
+  bearAmount: number;
 }) {
   const { account } = useContext(MetmaskContext);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -334,6 +340,15 @@ export function Live({
   const [direction, setDirection] = useState("UP");
   const [showBack, setShowBack] = useState(false);
   const [disabledBack, setDisabledBack] = useState(false);
+
+  let downPerc = 0;
+  let upPerc = 0;
+  let total = totalAmount || 0;
+
+  if (total > 0) {
+    downPerc = bearAmount === 0 ? bearAmount : total / bearAmount;
+    upPerc = bullAmount === 0 ? bullAmount : total / bullAmount;
+  }
 
   const betBullClickHandler = () => {
     if (innerRef && innerRef.current) {
@@ -368,14 +383,14 @@ export function Live({
         <div className="flip-card-front rounded-3xl bg-[#283573] border-slate-600 border-[1px] backdrop-blur-lg w-full">
           <Header loading={loading} epoch={epoch} />
           <Body
-            totalAmount={totalAmount}
+            totalAmount={totalAmountDisplay}
             userRound={userRounds[epoch]}
             disableUpDown={disableUpDown || !!userRounds[epoch]}
             loading={loading}
             betBearHandler={betBearClickHandler}
             betBullHandler={betBullClickHandler}
-            upPerc={0}
-            downPerc={0}
+            upPerc={upPerc}
+            downPerc={downPerc}
           />
         </div>
         {showBack && (
