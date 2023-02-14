@@ -6,6 +6,7 @@ import Twitter from "../assets/images/social-media/twitter.svg";
 import Fb from "../assets/images/social-media/fb.svg";
 import Linkedin from "../assets/images/social-media/linkedin.svg";
 import Insta from "../assets/images/social-media/instagram.svg";
+import Discord from "../assets/images/social-media/discord.svg";
 import Telegram from "../assets/images/social-media/telegram.svg";
 
 const SocialMedia = () => {
@@ -30,6 +31,11 @@ const SocialMedia = () => {
         icon: Insta,
         type: "instagram",
         link: "https://www.instagram.com/lumanagi.dex/",
+      },
+      {
+        icon: Discord,
+        type: "discord",
+        link: "https://discord.gg/KFzZbB6F",
       },
       {
         icon: Telegram,
