@@ -13,12 +13,14 @@ export function Header() {
 
   return (
     <>
-      <div className="flex items-center mx-20 mt-5 mb-10">
-        <img src={MenuBar} alt="menu-bar" className="max-w-full" />
-        <a className="w-full h-full" href="https://lumanagi.com">
-          <img src={WhiteLogo} alt="logo" className="max-w-full ml-4 w-60 " />
-        </a>
-        <div className="flex justify-end w-full space-x-4">
+      <div className="flex items-center mt-5 mb-10 w-screen px-20">
+        <div className="w-2/3 flex items-center">
+          <img src={MenuBar} alt="menu-bar" className="max-w-full" />
+          <a className="w-full h-full" href="https://lumanagi.com">
+            <img src={WhiteLogo} alt="logo" className="max-w-full ml-4 w-60 " />
+          </a>
+        </div>
+        <div className="flex justify-end w-1/3 space-x-4">
           <Button
             color="default"
             onClick={handleBuySell}

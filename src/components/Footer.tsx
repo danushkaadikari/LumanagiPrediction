@@ -173,7 +173,7 @@ export function Footer() {
         </div>
       </div>
       <hr className="mx-20 mt-8 mb-4 text-white"></hr>
-      <div className="flex w-full mx-20 mb-10">
+      <div className="flex w-full mb-10">
         <div className="flex justify-center w-full text-lg text-white">
           <a className="opacity-50" href="https://lumanagi.com">
             © Lumanagi
