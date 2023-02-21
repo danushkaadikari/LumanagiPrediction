@@ -3,6 +3,7 @@ import Button from "../../UI/Button";
 import { ReactComponent as Loader } from "../../assets/images/loader.svg";
 import upSideSvg from "../../assets/images/UpSide.svg";
 import downSideSvg from "../../assets/images/DownSide.svg";
+import { PRESICION_LENGTH } from "../../constants/common";
 
 interface LiveCardHeader {
   loading: boolean;
@@ -52,7 +53,9 @@ const Body = ({ loading }: { loading: boolean }) => {
           <div className="space-y-2 h-48 border-[#3D8DFF] border-[1px] border-solid p-2 mx-2 rounded-lg text-white opacity-50">
             <div className="flex justify-between mb-4 text-xs font-bold">
               <div>Prize Pool</div>
-              <div className="text-xs font-bold">MATIC 0.00</div>
+              <div className="text-xs font-bold">
+                MATIC {Number(0).toFixed(PRESICION_LENGTH)}
+              </div>
             </div>
             <Button
               size={"sm"}

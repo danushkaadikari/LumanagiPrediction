@@ -1,4 +1,5 @@
 import { BigNumber, Contract } from "ethers";
+import { PRESICION_LENGTH } from "../../constants/common";
 
 export const getLatestRound = async (contract: Contract) => {
   try {
@@ -47,7 +48,7 @@ export const getRoundData = async (contract: Contract, roundId: BigNumber) => {
 export const getLatestAnswer = async (contract: Contract) => {
   try {
     const latestAnswer = await contract.methods.latestAnswer().call();
-    return Number((Number(latestAnswer) / 100000000).toFixed(2));
+    return Number((Number(latestAnswer) / 100000000).toFixed(PRESICION_LENGTH));
   } catch (error) {
     console.error("LL: getLatestAnswer -> error", error);
     throw error;

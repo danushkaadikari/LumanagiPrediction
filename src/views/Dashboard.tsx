@@ -33,7 +33,7 @@ import Next from "../components/card/Next";
 import { ReactComponent as Back } from "../assets/images/back.svg";
 
 import AnimatedNumber from "../common/AnimatedNumber";
-import { SCROLL_AMOUNT } from "../constants/common";
+import { SCROLL_AMOUNT, PRESICION_LENGTH } from "../constants/common";
 
 const Tabs = () => {
   return (
@@ -386,6 +386,7 @@ const Dashboard: React.FC<{}> = () => {
                 <AnimatedNumber
                   n={latestAnswer ? latestAnswer : 0}
                   from={prevAnswer}
+                  decimals={PRESICION_LENGTH}
                 />
               </div>
             </div>

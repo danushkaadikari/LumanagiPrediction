@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { MAX_TIMER_IN_MINUTES } from "../../constants/common";
+import { MAX_TIMER_IN_MINUTES, PRESICION_LENGTH } from "../../constants/common";
 import { ReactComponent as Down } from "../../assets/images/down.svg";
 import { ReactComponent as Loader } from "../../assets/images/loader.svg";
 import { ReactComponent as Claim } from "../../assets/images/Claim.svg";
@@ -147,6 +147,7 @@ const Body = ({
                         <AnimatedNumber
                           n={latestAnswer ? latestAnswer : 0}
                           from={prevAnswer}
+                          decimals={PRESICION_LENGTH}
                         />
                       ) : (
                         closePrice
@@ -155,7 +156,7 @@ const Body = ({
                     <div className="bg-[#596CC4] rounded-lg px-4 py-2">
                       <div className="flex items-center justify-between gap-1 text-xs font-bold ">
                         <Down className={`${diff < 0 ? "rotate-180" : ""}`} />$
-                        {diff.toFixed(2)}
+                        {diff.toFixed(PRESICION_LENGTH)}
                       </div>
                     </div>
                   </div>
@@ -165,7 +166,9 @@ const Body = ({
                   </div>
                   <div className="flex !mt-6 justify-between font-bold text-xs">
                     <div>Prize Pool</div>
-                    <div>MATIC {Number(totalAmount).toFixed(4)}</div>
+                    <div>
+                      MATIC {Number(totalAmount).toFixed(PRESICION_LENGTH)}
+                    </div>
                   </div>
                 </div>
               </>

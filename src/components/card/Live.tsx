@@ -17,6 +17,7 @@ import {
   getGweiValue,
   getPercentValue,
 } from "../../utils/index";
+import { PRESICION_LENGTH } from "../../constants/common";
 
 interface LiveCardHeader {
   loading: boolean;
@@ -93,14 +94,14 @@ const Body = ({
                       <Down
                         className={userRound.amount < 0 ? "rotate-180" : ""}
                       />
-                      MATIC {Number(userRound.amount).toFixed(4)}
+                      MATIC {Number(userRound.amount).toFixed(PRESICION_LENGTH)}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center justify-center gap-1 text-xxs">
                   PRIZE POOL TOTAL:
                   <div className="flex items-center justify-between gap-1 font-bold text-xxs ">
-                    MATIC {Number(totalAmount).toFixed(4)}
+                    MATIC {Number(totalAmount).toFixed(PRESICION_LENGTH)}
                   </div>
                 </div>
               </div>
@@ -114,7 +115,7 @@ const Body = ({
               <div className="flex justify-between mb-4 text-xs font-bold">
                 <div>Prize Pool</div>
                 <div className="text-xs font-bold">
-                  MATIC {Number(totalAmount).toFixed(4)}
+                  MATIC {Number(totalAmount).toFixed(PRESICION_LENGTH)}
                 </div>
               </div>
               <Button

@@ -1,4 +1,5 @@
 import { BigNumber, Contract } from "ethers";
+import { PRESICION_LENGTH } from "../../constants/common";
 import { getMaticValue } from "../../utils/index";
 export const getMinBetAmount = async (contract: Contract) => {
   try {
@@ -111,11 +112,15 @@ export const getEpochDetails = async (
       bearAmount: Number(roundData.bearAmount),
       bullAmount: Number(roundData.bullAmount),
       closeOracleId: Number(roundData.closeOracleId),
-      closePrice: (Number(roundData.closePrice) / 100000000).toFixed(2),
+      closePrice: (Number(roundData.closePrice) / 100000000).toFixed(
+        PRESICION_LENGTH
+      ),
       closeTimestamp: Number(roundData.closeTimestamp),
       epoch: Number(roundData.epoch),
       lockOracleId: Number(roundData.lockOracleId),
-      lockPrice: (Number(roundData.lockPrice) / 100000000).toFixed(2),
+      lockPrice: (Number(roundData.lockPrice) / 100000000).toFixed(
+        PRESICION_LENGTH
+      ),
       lockTimestamp: Number(roundData.lockTimestamp),
       oracleCalled: roundData.oracleCalled,
       rewardAmount:
